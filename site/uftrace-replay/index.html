@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>replay - uftrace</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "replay";
+        var mkdocs_page_input_path = "uftrace-replay.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> uftrace
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tutorial</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING/">contributing</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">doc</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">replay</a>
+    <ul class="current">
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">uftrace</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">doc</li>
+      <li class="breadcrumb-item active">replay</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p>% UFTRACE-REPLAY(1) Uftrace User Manuals
+% Namhyung Kim <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
+% Sep, 2018</p>
+<h1 id="_1">이름</h1>
+<p>uftrace-replay - 기록된 데이터의 함수 실행 흐름을 출력한다.</p>
+<h1 id="_2">사용법</h1>
+<p>uftrace replay [<em>options</em>]</p>
+<h1 id="_3">설명</h1>
+<p>이 명령어는 <code>uftrace-record</code>(1) 명령어를 통해 기록된 데이터의 함수 실행 흐름을
+출력한다.  출력되는 함수들은 C 프로그램과 유사한 형식으로 시간 순서대로 출력된다.</p>
+<h1 id="replay">REPLAY 옵션</h1>
+<p>-f <em>FIELD</em>, --output-fields=<em>FIELD</em>
+:   결과로 보여지는 필드를 사용자가 지정한다.  가능한 값들로는 duration, tid,
+    time, delta, elapsed, addr 가 있다.  여러 필드를 갖는 경우 콤마로 구분된다.
+    모든 필드를 감추기 위한 (단일하게 사용되는) 'none' 특수 필드가 있으며
+    기본적으로 'duration,tid' 가 사용된다.  상세한 설명은 <em>FIELDS</em> 를 참고한다.</p>
+<p>--flat
+:   C 와 같이 호출 깊이가 보이는 방식이 아닌 평평한(flat) 형식으로 출력한다.
+    이 옵션은 주로 디버깅이나 테스트 용도로 사용된다.</p>
+<p>--column-view
+:   열(column) 별로 분리하여 각각의 태스크를 출력한다.  서로 다른 태스크에서
+    실행하는 함수의 구분을 쉽게한다.</p>
+<p>--column-offset=<em>DEPTH</em>
+:   <code>--column-view</code> 옵션이 사용되었을 때, 이 옵션은 각 태스크 사이의
+    간격(offset) 크기를 명시한다.  기본 간격은 8 이다.</p>
+<p>--task-newline
+:   태스크가 변경되면 빈 공백 한줄을 추가한다.
+    이를 통해 여러 태스크에서 동작하는 함수들을 쉽게 구별 할 수 있다.</p>
+<p>--no-comment
+:   함수가 반환되는 곳에 주석을 출력하지 않는다.</p>
+<p>--libname
+:   함수 이름과 함께 라이브러리 이름을 출력한다.</p>
+<p>--format=<em>TYPE</em>
+:   형식화된 출력을 보여준다. 현재는 'normal' 과 'html' 형식이 지원된다.</p>
+<h1 id="_4">공통 옵션</h1>
+<p>-F <em>FUNC</em>, --filter=<em>FUNC</em>
+:   선택된 함수들(그리고 그 내부의 함수들)만 출력하도록 필터를 설정한다.
+    이 옵션은 한번 이상 쓰일 수 있다.
+    필터에 대한 설명은  <em>FILTERS</em> 를 참고한다.</p>
+<p>-N <em>FUNC</em>, --notrace=<em>FUNC</em>
+:   선택된 함수들 (또는 그 아래 함수들)을 출력에서 제외하도록 설정하는 옵션이다.
+    이 옵션은 한번 이상 쓰일 수 있다.
+    필터에 대한 설명은 <em>FILTERS</em> 를 참고한다.</p>
+<p>-C <em>FUNC</em>, --caller-filter=<em>FUNC</em>
+:   선택된 함수의 호출자를 출력하는 필터를 설정한다. 이 옵션은 한번 이상 쓰일 수 있다.
+    필터에 대한 설명은 <em>FILTERS</em> 를 참고한다.</p>
+<p>-T <em>TRG</em>, --trigger=<em>TRG</em>
+:   선택된 함수의 트리거를 설정한다. 이 옵션은 한번 이상 쓰일 수 있다.
+    트리거에 대한 설명은 <em>TRIGGERS</em> 를 참고한다.</p>
+<p>-D <em>DEPTH</em>, --depth=<em>DEPTH</em>
+:   함수가 중첩될 수 있는 최대 깊이를 설정한다.
+    (이를 넘어서는 상세한 함수 실행과정은 무시한다.)
+    필터에 대한 설명은 <em>FILTERS</em> 를 참고한다.</p>
+<p>-t <em>TIME</em>, --time-filter=<em>TIME</em>
+:   설정한 시간 이하로 수행된 함수는 표시하지 않게 한다. 만약 어떤 함수가
+    명시적으로 'trace' 트리거가 적용된 경우, 그 함수는 실행 시간과 상관없이 항상
+    출력된다. 필터에 대한 설명은 <em>FILTERS</em> 를 참고한다.</p>
+<p>-Z <em>SIZE</em>, --size-filter=<em>SIZE</em>
+:   SIZE 바이트보다 작은 함수들을 표시하지 않게 한다. 만약 어떤 함수가 명시적으로
+    'trace' 트리거가 적용된 경우, 그 함수는 함수 크기와 상관없이 항상 출력된다.
+    필터에 대한 설명은 <em>FILTERS</em> 을 참고한다.</p>
+<p>-L <em>LOCATION</em>, --loc-filter=<em>LOCATION</em>
+:   사용할 필터의 경로를 지정한다.
+    이 옵션은 1번이상 사용할 수 있다.</p>
+<p>--no-libcall
+:   라이브러리 호출은 표시하지 않게 한다.</p>
+<p>--no-event
+:   이벤트들을 표시하지 않게 한다.  <code>--no-sched</code> 옵션을 내포한다.</p>
+<p>--no-sched
+:   스케줄 이벤트를 표시하지 않게 한다.</p>
+<p>--no-sched-preempt
+:   선점 스케줄 이벤트는 표시하지 않게 하나
+    일반(대기) 스케쥴 이벤트는 그대로 표시한다.</p>
+<p>--match=<em>TYPE</em>
+:   타입(TYPE)으로 일치하는 패턴을 보여준다. 가능한 형태는 <code>regex</code>와 <code>glob</code>이다.
+    기본 설정은 <code>regex</code>이다.</p>
+<p>--disable
+:   uftrace 를 시작할때 데이터를 기록하지 않고 시작한다.
+    이것은 <code>trace_on</code> 트리거와 함께 사용되었을 때만 의미를 가진다.</p>
+<p>--with-syms=<em>DIR</em>
+:   DIR 디렉토리의 .sym 파일에서 심볼(symbol) 데이터를 읽는다.
+    이는 심볼(symbol) 데이터가 제거된 바이너리 파일을 다루는데 유용하다.
+    바이너리 파일 이름은 저장할 때와 사용할 때 동일해야 한다.</p>
+<h1 id="_5">공통 분석 옵션</h1>
+<p>-H <em>FUNC</em>, --hide=<em>FUNC</em>
+:   주어진 FUNC 함수들을 출력 대상에서 제외할 수 있다.  이는 선택된 함수의 자식
+    함수들에 대해서는 영향을 주지 않으며 단지 주어진 함수들만 숨기는 기능을 하게
+    된다. 이 옵션은 한번 이상 쓰일 수 있다.</p>
+<p>--kernel-full
+:   사용자 함수 밖에서 호출된 모든 커널 함수를 출력한다.</p>
+<p>--kernel-only
+:   사용자 함수를 제외한 커널 함수만 출력한다.</p>
+<p>--event-full
+:   사용자 함수 밖의 모든 (사용자) 이벤트를 출력한다.</p>
+<p>--tid=<em>TID</em>[,<em>TID</em>,...]
+:   주어진 태스크에 의해 호출된 함수들만 출력한다. <code>uftrace report --task</code>
+    또는 <code>uftrace info</code> 를 이용해 데이터 파일 내의 태스크 목록을 볼 수 있다.
+    이 옵션은 한번 이상 쓰일 수 있다.</p>
+<p>--demangle=<em>TYPE</em>
+:   필터, 트리거, 함수인자와 (또는) 반환 값을 디맹글(demangle)된 C++ 심볼
+    이름으로 사용한다. "full", "simple", "no" 값을 사용할 수 있다.
+    기본 설정은 "simple"이며, 템플릿 파라미터와 함수 인자를 무시한다.</p>
+<p>-r <em>RANGE</em>, --time-range=<em>RANGE</em>
+:   시간 범위 RANGE 내에 실행된 함수들만 출력한다. RANGE 는 \&lt;시작&gt;~\&lt;끝&gt;
+    ("~"로 구분) 이고 \&lt;시작&gt;과 \&lt;끝&gt; 중 하나는 생략할 수 있다. \&lt;시작&gt;과
+    \&lt;끝&gt;은 타임스탬프 또는 '100us'와 같은 \&lt;시간단위&gt;가 있는 경과시간이다.
+    <code>uftrace replay</code>(1) 에서 <code>-f time</code> 또는 <code>-f elapsed</code> 를 이용해 타임스탬프
+    또는 경과시간을 확인할 수 있다.</p>
+<h1 id="filters">FILTERS</h1>
+<p>uftrace 는 관심 있는 대상이 아닌 함수들을 감추는 필터링을 할 수 있다.
+필터링은 사용자들이 관심 있는 함수들에만 집중할 수 있게 하고, 기록되는 데이터의
+크기를 줄일 수 때문에 사용하기를 권장한다.
+uftrace 가 호출되면, 두 종류의 함수 필터를 갖게 되는데 이들은 대상 함수를
+선택하는 방식(opt-in)의 필터로 <code>-F</code>/<code>--filter</code> 와 선택하지 않는 방식(opt-out)의
+필터인 <code>-N</code>/<code>--notrace</code> 가 있다.
+이 필터들은 기록(record)하거나 재생(replay)할 때 모두 적용될 수 있다.</p>
+<p>첫번째 필터 종류는 선택하는 방식의 필터이다. 기본적으로, 이것은 아무것도 추적하지
+않는다.  하지만 어떤 명시된 함수에 진입하면, 함수 호출에 대한 추적을 시작한다.
+그러다가 그 함수가 반환하게 되면, 함수 호출 추적을 중단한다.</p>
+<p>예를 들어, <code>a()</code>, <code>b()</code> 와 <code>c()</code>를 차례로 호출하는 간단한 프로그램을 생각해보자.</p>
+<pre><code>$ cat abc.c
+void c(void) {
+    /* do nothing */
+}
+
+void b(void) {
+    c();
+}
+
+void a(void) {
+    b();
+}
+
+int main(void) {
+    a();
+    return 0;
+}
+
+$ gcc -pg -o abc abc.c
+</code></pre>
+<p>일반적인 경우 uftrace 는 <code>main()</code>부터 <code>c()</code>까지의 모든 함수들을 추적할 것이다.</p>
+<pre><code>$ uftrace ./abc
+# DURATION    TID     FUNCTION
+ 138.494 us [ 1234] | __cxa_atexit();
+            [ 1234] | main() {
+            [ 1234] |   a() {
+            [ 1234] |     b() {
+   3.880 us [ 1234] |       c();
+   5.475 us [ 1234] |     } /* b */
+   6.448 us [ 1234] |   } /* a */
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p>하지만 <code>-F b</code> 필터 옵션이 사용되었을 때는, <code>main()</code>과 <code>a()</code> 함수는 보이지 않고
+오직 <code>b()</code>와 <code>c()</code>만이 포함된 추적 결과를 보일것이다.
+아래의 예는 필터가 <code>uftrace replay</code>를 할때 적용되었음에 유의하라.</p>
+<pre><code>$ uftrace record ./abc
+$ uftrace replay -F b
+# DURATION    TID     FUNCTION
+            [ 1234] | b() {
+   3.880 us [ 1234] |   c();
+   5.475 us [ 1234] | } /* b */
+</code></pre>
+<p>두번째 필터 종류는 선택하지 않는 방식의 필터이다.  기본적으로, 모든 것이
+추적되지만, 명시된 함수에 진입하게 되면, 추적을 멈춘다.  제외된 함수가 반환하게
+되면, 추적을 재개한다.</p>
+<p>위 예시에서, <code>b()</code> 함수와 그의 모든 하위 함수들의 호출은 <code>-N</code> 옵션으로 제외할 수 있다.</p>
+<pre><code>$ uftrace record ./abc
+$ uftrace replay -N b
+# DURATION    TID     FUNCTION
+ 138.494 us [ 1234] | __cxa_atexit();
+            [ 1234] | main() {
+   6.448 us [ 1234] |   a();
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p><code>b()</code> 함수만을 숨기고 그의 하위 함수들은 그대로 보고 싶으면 <code>-H</code> 옵션을 사용할 수 있다.</p>
+<pre><code>$ uftrace record ./abc
+$ uftrace replay -H b
+# DURATION    TID     FUNCTION
+ 138.494 us [ 1234] | __cxa_atexit();
+            [ 1234] | main() {
+            [ 1234] |   a() {
+   3.880 us [ 1234] |     c();
+   6.448 us [ 1234] |   } /* a */
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p>위의 <code>-H</code> 옵션은 특히 C++ 프로그램에서 <code>-H ^std::</code> 와 같이 사용해서
+std 네임스페이스의 호출들을 숨길때 유용하다.</p>
+<p>만일 특정 함수에만 관심이 있고 그 함수가 어떻게 호출되는지만 알고 싶다면,
+caller filter 를 사용하면 될 것이다. 그 함수를 마지막(leaf) 노드로 만들고,
+그 함수의 모든 부모 함수들을 기록한다.</p>
+<pre><code>$ uftrace record ./abc
+$ uftrace replay -C b
+# DURATION    TID     FUNCTION
+            [ 1234] | main() {
+            [ 1234] |   a() {
+   5.475 us [ 1234] |     b();
+   6.448 us [ 1234] |   } /* a */
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p>위 예시에서, 호출 경로에 없는 함수들을 출력되지 않았다. 또한, 함수 <code>b()</code>의 자식 함수인
+함수 <code>c()</code> 또한 출력되지 않았다.</p>
+<p>또한, <code>-D</code> 옵션으로 함수의 중첩 깊이을 제한할 수도 있다.</p>
+<pre><code>$ uftrace record ./abc
+$ uftrace replay -D 3
+# DURATION    TID     FUNCTION
+ 138.494 us [ 1234] | __cxa_atexit();
+            [ 1234] | main() {
+            [ 1234] |   a() {
+   5.475 us [ 1234] |     b();
+   6.448 us [ 1234] |   } /* a */
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p>위 예시에서, uftrace 는 함수 호출 깊이를 최대 3 으로 제한하여 출력했기 때문에,
+마지막 함수인 <code>c()</code>는 생략되었다. <code>-D</code> 옵션은 <code>-F</code> 옵션과 함께 쓰일 수 있다.</p>
+<p>때로는, 오랜 시간 실행되는 함수들을 특별하게 관찰하는 것이 유용하다.
+이는 작은 (실행시간을 가지는) 함수들 중에는 관심 대상이 아닌 것들이 많기 때문이다.
+<code>-t</code>/<code>--time-filter</code> 옵션은 명시된 임계시간보다 오래 실행된 함수들만 볼 수 있게
+하는 시간 기반의 필터이다.  위 예시에서는, 사용자는 대부분 아래와 같이
+5 마이크로(us) 초 이상 걸려서 실행되는 함수를 보고 싶어할 것이다.</p>
+<pre><code>$ uftrace record ./abc
+$ uftrace replay -t 5us
+# DURATION    TID     FUNCTION
+ 138.494 us [ 1234] | __cxa_atexit();
+            [ 1234] | main() {
+            [ 1234] |   a() {
+   5.475 us [ 1234] |     b();
+   6.448 us [ 1234] |   } /* a */
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p>동일한 데이터에 대해 다른 시간 필터 값을 설정해 replay 결과를 확인할 수 있다.</p>
+<pre><code>$ uftrace replay -t 6us
+# DURATION    TID     FUNCTION
+ 138.494 us [ 1234] | __cxa_atexit();
+            [ 1234] | main() {
+   6.448 us [ 1234] |   a();
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p>또한, <code>-r</code> 옵션은 주어진 시간 범위 동안 실행된 함수들을 보여준다.
+이 옵션을 사용할 때, 결과값을 TIMESTAMP, ELAPSED, DURATION, TID 필드들과 함께 볼 수 있다.</p>
+<pre><code>$ uftrace replay -r 502716.387320101~502716.387322389
+#     TIMESTAMP      DURATION    TID     FUNCTION
+502716.387320101   0.289 us [ 6126] |   fgets();
+502716.387320584            [ 6126] |   get_values_from() {
+502716.387320709   0.245 us [ 6126] |     strdup();
+502716.387321172   0.144 us [ 6126] |     strsep();
+502716.387321542   0.223 us [ 6126] |     atoi();
+502716.387321983   0.239 us [ 6126] |     atoi();
+502716.387322389   1.805 us [ 6126] |   } /* get_values_from */
+
+$ uftrace replay -r 40us~ | head -10
+#  ELAPSED   DURATION    TID     FUNCTION
+  40.141 us            [ 6126] |   get_values_from() {
+  40.269 us   0.249 us [ 6126] |     strdup();
+  40.756 us   0.149 us [ 6126] |     strsep();
+  41.119 us   0.235 us [ 6126] |     atoi();
+  41.578 us   0.211 us [ 6126] |     atoi();
+  41.957 us   1.816 us [ 6126] |   } /* get_values_from */
+  42.124 us   0.220 us [ 6126] |   fgets();
+  42.529 us            [ 6126] |   get_values_from() {
+  42.645 us   0.236 us [ 6126] |     strdup();
+</code></pre>
+<p>필터링된 함수에 트리거를 설정할 수도 있다.  더 많은 정보는 <em>TRIGGERS</em> 항목에서
+참고할 수 있다.</p>
+<h1 id="triggers">TRIGGERS</h1>
+<p>uftrace 는 (필터가 있든 없든) 선택된 함수 호출에 대한 트리거 동작을 지원한다.
+현재 지원되는 트리거와 사양에 대한 BNF 는 다음과 같다.</p>
+<pre><code>&lt;trigger&gt;    :=  &lt;symbol&gt; "@" &lt;actions&gt;
+&lt;actions&gt;    :=  &lt;action&gt;  | &lt;action&gt; "," &lt;actions&gt;
+&lt;action&gt;     :=  "depth="&lt;num&gt; | "backtrace" | "trace_on" | "trace_off" |
+                 "color="&lt;color&gt; | "time="&lt;time_spec&gt; | "size="&lt;num&gt; |
+                 "filter" | "notrace" | "hide"
+&lt;time_spec&gt;  :=  &lt;num&gt; [ &lt;time_unit&gt; ]
+&lt;time_unit&gt;  :=  "ns" | "nsec" | "us" | "usec" | "ms" | "msec" | "s" | "sec" | "m" | "min"
+</code></pre>
+<p><code>depth</code> 트리거는 함수를 실행하는 동안 필터의 깊이를 변경한다.  다양한 함수에 대해
+서로 다른 필터 깊이를 설정할 수 있다.  그리고 <code>backtrace</code> 트리거는 replay 시 스택
+백트레이스를 출력한다.</p>
+<p><code>color</code> 트리거는 색상을 변경한다.  지원되는 색상은 <code>red</code>, <code>green</code>, <code>blue</code>,
+<code>yellow</code>, <code>magenta</code>, <code>cyan</code>, <code>bold</code>, <code>gray</code> 가 있다.</p>
+<p>다음 예제는 트리거의 작동 방식을 보여준다.  함수 <code>b()</code>에 <code>backtrace</code> action 을 넣고
+필터 깊이를 2 로 설정한다.</p>
+<pre><code>$ uftrace record ./abc
+$ uftrace replay -T 'b@filter,backtrace,depth=2'
+# DURATION    TID     FUNCTION
+  backtrace [ 1234] | /* [ 0] main */
+  backtrace [ 1234] | /* [ 1] a */
+            [ 1234] | b() {
+   3.880 us [ 1234] |   c();
+   5.475 us [ 1234] | } /* b */
+</code></pre>
+<p><code>trace_on</code>과 <code>trace_off</code> 트리거는 uftrace 가 지정된 함수를 기록할지 여부를
+관리한다.  또한, <code>_</code> 문자 없이 <code>traceon</code> 과 <code>traceoff</code> 로도 사용할 수 있다.</p>
+<p><code>time</code> 트리거는 함수를 실행하는 동안 시간 필터(time-filter) 설정을 변경한다.
+다른 함수들에 대해서 서로 다른 시간 필터를 적용할 떄 사용할 수 있다.</p>
+<p><code>filter</code> 와 <code>notrace</code> 트리거는 각각 <code>-F</code>/<code>--filter</code> 와 <code>-N</code> /<code>--notrace</code> 같은
+효과가 있다.</p>
+<p><code>hide</code> 트리거는 특정 함수를 보이지 않게 하는 <code>-H</code>/<code>--hide</code> 옵션과 같은 효과가
+있어서 <code>notrace</code> 와 다르게 하위 함수들에 대해서는 적용되지 않는다.</p>
+<h1 id="fields">FIELDS</h1>
+<p>uftrace 사용자는 replay 결과를 몇몇의 필드로 원하는 방식대로 구성할 수 있다.
+여기서 필드란 파이프 문자 (|) 왼쪽에 나타나는 정보를 뜻한다.
+기본적으로 지속시간 duration 과 tid 필드를 사용하지만, 다른 필드들도 다음과 같이
+임의의 순서로 사용 가능하다.</p>
+<pre><code>$ uftrace replay -f time,delta,duration,addr
+#     TIMESTAMP      TIMEDELTA  DURATION     ADDRESS     FUNCTION
+    74469.340757350              1.583 us       4004d0 | __monstartup();
+    74469.340762221   4.871 us   0.766 us       4004f0 | __cxa_atexit();
+    74469.340764847   2.626 us                  4006b1 | main() {
+    74469.340765061   0.214 us                  400656 |   a() {
+    74469.340765195   0.134 us                  400669 |     b() {
+    74469.340765344   0.149 us                  40067c |       c() {
+    74469.340765524   0.180 us   0.742 us       4004b0 |         getpid();
+    74469.340766935   1.411 us   1.591 us       40067c |       } /* c */
+    74469.340767195   0.260 us   2.000 us       400669 |     } /* b */
+    74469.340767372   0.177 us   2.311 us       400656 |   } /* a */
+    74469.340767541   0.169 us   2.694 us       4006b1 | } /* main */
+</code></pre>
+<p>각 필드들은 다음과 같은 의미를 가진다.</p>
+<ul>
+<li>tid: task id (gettid(2)로 얻을 수 있다.)</li>
+<li>duration: 함수 실행 시간</li>
+<li>time: 타임스탬프 정보</li>
+<li>delta: 어떤 작업 내 두 타임스탬프의 차이</li>
+<li>elapsed: 첫 타임스탬프로부터의 경과 시간</li>
+<li>addr: 해당 함수의 주소</li>
+<li>task: 태스크 이름 (comm)</li>
+<li>module: 라이브러리 혹은 실행 가능한 함수의 이름</li>
+</ul>
+<p>기본적으로 설정된 필드값은 'duration,tid'이다.  만약 주어진 필드의 이름이 "+"로
+시작된다면, 그 필드는 기본 필드값에 추가될 것이다.  즉, "-f +time" 는
+"-f duration,tid,time" 와 같은 것이다.  또한 'none'이라는 특별한 필드도 받을 수
+있는데, 이는 필드 출력을 하지 않고 오직 함수 실행 결과만을 보여준다.</p>
+<h1 id="_6">함께 보기</h1>
+<p><code>uftrace</code>(1), <code>uftrace-record</code>(1), <code>uftrace-report</code>(1), <code>uftrace-info</code>(1)</p>
+<h1 id="_7">번역자</h1>
+<p>강민철 <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#116;&#101;&#103;&#111;&#110;&#103;&#107;&#97;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#116;&#101;&#103;&#111;&#110;&#103;&#107;&#97;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>, 김홍규 <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#104;&#111;&#110;&#103;&#103;&#121;&#117;&#46;&#107;&#112;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#104;&#111;&#110;&#103;&#103;&#121;&#117;&#46;&#107;&#112;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../CONTRIBUTING/" class="btn btn-neutral float-left" title="contributing"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../CONTRIBUTING/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

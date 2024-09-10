@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Uftrace - uftrace</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Uftrace";
+        var mkdocs_page_input_path = "uftrace.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> uftrace
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tutorial</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING/">contributing</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">doc</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../uftrace-replay/">replay</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">uftrace</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Uftrace</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p>% UFTRACE(1) Uftrace User Manuals
+% Namhyung Kim <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
+% Sep, 2018</p>
+<h1 id="_1">이름</h1>
+<p>uftrace - 프로그램 함수 호출 분석 도구</p>
+<h1 id="_2">사용법</h1>
+<p>uftrace [<em>record</em>|<em>replay</em>|<em>live</em>|<em>report</em>|<em>info</em>|<em>dump</em>|<em>recv</em>|<em>graph</em>|<em>script</em>|<em>tui</em>] [<em>options</em>] COMMAND [<em>command-options</em>]</p>
+<h1 id="_3">설명</h1>
+<p>uftrace 는 <code>COMMAND</code> 에 주어지는 프로그램의 실행을 함수 단위로 추적(trace)하는
+분석 도구이다.  <code>COMMAND</code> 에 주어지는 프로그램은 <code>-pg</code> 또는 <code>-finstrument-function</code>
+로 컴파일된 C 또는 C++ 프로그램이어야 한다.
+COMMAND 의 대상이 되는 실행 이미지는 이름을 읽을 수 있도록
+(i.e <code>strip</code>(1) 되어 있지 않은) ELF 심볼 테이블을 필요로 한다.</p>
+<p>uftrace 는 <code>git</code>(1) 또는 <code>perf</code>(1) 와 같은 방식으로 다수의 보조 명령어들을 갖는다.
+아래에 보조 명령어과 함께 간략한 설명이 있다.  더 자세한 정보를 위해서는 각 보조`
+명령어들의 메뉴얼 페이지를 참조할 수 있다.  또한, 이 페이지에 있는 옵션들은 다른
+보조 명령어들과 함께 사용될 수 있다.</p>
+<p>만약 보조 명령어를 명시적으로 입력하지 않으면, uftrace 는 <code>record</code> 와 <code>replay</code> 를
+한번에 수행하는 <code>live</code> 보조 명령어로 동작한다.
+live 명령어의 옵션들은 <code>uftrace-live</code>(1) 에서 참조할 수 있다.
+더 자세한 분석을 위해, <code>uftrace-record</code>(1) 를 통해 데이터를 기록하고,
+<code>uftrace-replay</code>(1), <code>uftrace-report</code>(1), <code>uftrace-info</code>(1), <code>uftrace-dump</code>(1),
+<code>uftrace-script</code>(1), <code>uftrace-tui</code>(1) 중 하나를 사용하여 분석할 수 있다.</p>
+<h1 id="_4">보조 명령어</h1>
+<p>record
+:   주어진 명령어를 실행하고 데이터를 파일이나 디렉터리에 저장한다.</p>
+<p>replay
+:   저장된 함수를 시간 정보와 함께 출력한다.</p>
+<p>live
+:   실시간 추적을 진행하고, 실행되는 함수를 출력한다.</p>
+<p>report
+:   다양한 통계와 저장된 데이터를 요약하여 출력한다.</p>
+<p>info
+:   OS 버전, CPU 정보, 라인 수 등의 추가적인 정보를 출력한다.</p>
+<p>dump
+:   데이터 파일에 있는 저수준 데이터를 출력한다.</p>
+<p>recv
+:   네트워크로부터 전달받은 데이터를 저장한다.</p>
+<p>graph
+:   함수 호출 그래프를 출력한다.</p>
+<p>script
+:   저장된 함수 추적 데이터와 관련된 스크립트를 실행한다.</p>
+<p>tui
+:   graph 와 report 를 볼 수 있는 텍스트 형식의 사용자 인터페이스를 보여준다.</p>
+<h1 id="_5">옵션</h1>
+<p>-h, --help
+:   사용법을 옵션 리스트로 설명과 함께 출력한다.</p>
+<p>--usage
+:   사용법을 문자열로 출력한다.</p>
+<p>-V, --version
+:   프로그램의 버전을 출력한다.</p>
+<p>-v, --verbose
+:   세부적인 메시지를 출력한다.  이 옵션은 디버그 레벨을 3 까지 올릴 수 있다.</p>
+<p>--debug
+:   디버그 메시지를 출력한다.  이 옵션은 <code>-v</code>/<code>--verbose</code> 와 같으며 하위 호환성을
+    위해서만 존재한다.</p>
+<p>--debug-domain=<em>DOMAIN</em>[,<em>DOMAIN</em>, ...]
+:   디버그 메시지 출력을 도메인으로 한정한다. 가능한 도메인들은 uftrace, symbol,
+    demangle, filter, fstack, session, kernel, mcount, dynamic, event, script
+    그리고 dwarf 가 있다.
+    위의 도메인들은 콜론을 이용해 선택적으로 각각의 도메인 레벨을 지정할 수 있다.
+    예를 들어, <code>-v --debug-domain=filter:2</code> 는 filter 옵션에 디버깅 레벨을 지정하고,
+    다른 도메인은 디버그 레벨을 1로 지정한다.</p>
+<p>-d <em>DATA</em>, --data=<em>DATA</em>
+:   데이터를 저장할 디렉터리의 이름을 정한다.  기본값은 <code>uftrace.data</code> 이다.</p>
+<p>--logfile=<em>FILE</em>
+:   경고와 디버그 메시지를 stderr 을 대신해 <em>FILE</em> 안에 저장한다.</p>
+<p>--color=<em>VAL</em>
+:   결과에 색을 지정하거나 지정하지 않는다. 가능한 값은
+    "yes"(= "true" | "1" | "on" ), "no"(= "false" | "0" | "off" ) 와 "auto" 이다.
+    "auto" 는 출력이 터미널인 경우 기본적으로 색을 지정한다.</p>
+<p>--no-pager
+:   pager 기능을 사용하지 않는다.</p>
+<p>--opt-file=<em>FILE</em>
+:   uftrace 실행에 사용하는 옵션을 파일에서 읽어서 적용한다.</p>
+<h1 id="_6">보조 명령별 옵션</h1>
+<p>이 옵션들은 완전성을 위해 여기에 존재하지만, 특정 보조 명령어에서만
+유효하다.</p>
+<p>uftrace-&lt;<em>subcommand</em>&gt; 메뉴얼 페이지에서 추가적인 정보를 확인할 수 있다.
+<em>uftrace-live</em>(1) 메뉴얼 페이지는 특이한 페이지이다: 보조 멍령어 <code>live</code> 는
+<code>record</code> 와 <code>replay</code> 의 기능을 내부적으로 진행한다.  그러므로,</p>
+<p>--avg-self
+:   각 함수의 자체 시간(self time)의 평균, 최소, 최대 시간을 보여준다.</p>
+<p>--avg-total
+:   각 함수의 총 시간(total time)의 평균, 최소, 최대 시간을 보여준다.</p>
+<p>-a, --auto-args
+:   알려진 함수의 인자와 반환값들을 자동으로 기록한다.</p>
+<p>-A, --argument=<em>FUNC</em>@arg[,arg,...]
+:   함수 인자를 표시한다.</p>
+<p>-b, --buffer=<em>SIZE</em>
+:   저장할 데이터의 내부 버퍼 크기를 설정한다. (기본값: 128k)</p>
+<p>--chrome
+:   구글 크롬 추적 기능에서 사용되는 JSON 형식의 결과물을 표시한다.</p>
+<p>--clock
+:   타임스탬프를 읽는 클럭 소스를 설정한다. (기본값: mono)</p>
+<p>--column-offset=<em>DEPTH</em>
+:   각 열의 간격(offset) 크기를 명시한다. (기본값: 8)</p>
+<p>--column-view
+:   열(column) 별로 분리하여 각각의 태스크를 출력한다.</p>
+<p>-C, --caller-filter=<em>FUNC</em>
+:   FUNC의 호출자를 출력하는 필터를 설정한다.</p>
+<p>--demangle=<em>TYPE</em>
+:   C++ 심볼 디맹글링: full, simple, no
+:   (기본값: simple)</p>
+<p>--diff=<em>DATA</em>
+:   차이점을 보고한다.</p>
+<p>--diff-policy=<em>POLICY</em>
+:   diff 보고 정책을 설정한다.
+:   (기본값: 'abs,compact,no-percent')</p>
+<p>--disable
+:   데이터를 기록하지 않고 시작한다.</p>
+<p>-D, --depth=<em>DEPTH</em>
+:   <em>DEPTH</em> 깊이만큼 함수를 추적한다.</p>
+<p>-e, --estimate-return
+:   안정성을 위해 각 함수의 진입 데이터만을 기록한다.</p>
+<p>--event-full
+:   사용자 함수 밖의 모든 이벤트를 출력한다.</p>
+<p>-E, --Event=<em>EVENT</em>
+:   더 많은 정보를 저장하기 위해 <em>EVENT</em> 를 활성화한다.</p>
+<p>--flame-graph
+:   기록된 데이터를 FlameGraph 형식으로 표시한다.</p>
+<p>--flat
+:   평평한(flat) 형식으로 출력한다.</p>
+<p>--force
+:   계측 정보가 없는 실행 파일이여도 추적한다.</p>
+<p>--format=<em>FORMAT</em>
+:   <em>FORMAT</em> 으로 형식화된 출력을 보여준다: normal, html (기본값: normal)</p>
+<p>-f, --output-fields=<em>FIELD</em>
+:   replay 혹은 graph 출력에서 FIELD를 보여준다.</p>
+<p>-F, --filter=<em>FUNC</em>
+:   FUNC 만 추적한다.</p>
+<p>-g, --agent
+:   명령어를 받기 위해 mcount에서 에이전트를 시작한다.</p>
+<p>--graphviz
+:   기록된 데이터를 <em>DOT</em> 형식으로 덤프한다.</p>
+<p>-H, --hide=<em>FUNC</em>
+:   추적에서 FUNC 를 숨긴다.</p>
+<p>--host=<em>HOST</em>
+:   추적 데이터를 파일에 쓰는 대신 <em>HOST</em> 에 전달한다.</p>
+<p>-k, --kernel
+:   지원하는 경우, 커널 함수 또한 추적한다.</p>
+<p>--keep-pid
+:   프로그램을 추적할 때 동일한 pid 값을 유지하게 해준다.</p>
+<p>--kernel-buffer=<em>SIZE</em>
+:   저장할 커널 데이터의 내부 버퍼 크기를 설정한다.  (기본값: 1408K)</p>
+<p>--kernel-full
+:   사용자 함수 밖에서 호출된 모든 커널 함수를 출력한다.</p>
+<p>--kernel-only
+:   사용자 함수를 제외한 커널 함수만 출력한다.</p>
+<p>--kernel-skip-out
+:   사용자 함수 밖의 커널 함수를 생략한다. (지원 종료)</p>
+<p>-K, --kernel-depth=<em>DEPTH</em>
+:   커널 최대 함수 깊이를 <em>DEPTH</em> 로 지정한다.</p>
+<p>--libmcount-single
+:   libmcount 의 단일 쓰레드 버전을 사용한다.</p>
+<p>--list-event
+:   실행중에 사용가능한 이벤트들을 출력한다.</p>
+<p>--logfile=<em>FILE</em>
+:   경고와 디버그 메시지를 stderr 을 대신해 <em>FILE</em> 안에 저장한다.</p>
+<p>-l, --nest-libcall
+:   중첩된 라이브러리 호출을 보여준다.</p>
+<p>--libname
+:   함수 이름과 함께 라이브러리 이름을 출력한다</p>
+<p>--libmcount-path=<em>PATH</em>
+:   libmcount 라이브러리를 <em>PATH</em> 에서 먼저 찾는다.
+:   Load libmcount libraries from this <em>PATH</em></p>
+<p>--match=<em>TYPE</em>
+:   일치하는 패턴을 보여준다: regex, glob (기본값:
+:   regex)</p>
+<p>--max-stack=<em>DEPTH</em>
+:   스택의 최대 깊이를 <em>DEPTH</em> 로 설정한다. (기본값: 65535)</p>
+<p>--no-args
+:   함수 인자와 반환 값을 보여주지 않는다.</p>
+<p>--no-comment
+:   함수가 반환되는 곳에 주석을 출력하지 않는다.</p>
+<p>--no-event
+:   기본 이벤트들을 비활성화한다.</p>
+<p>--no-sched
+:   스케줄 이벤트를 비활성화한다.</p>
+<p>--no-sched-preempt
+:   선점 스케줄 이벤트는 표시하지 않게 하나
+:   일반(대기) 스케쥴 이벤트는 그대로 표시한다.</p>
+<p>--no-libcall
+:   라이브러리 호출을 추적하지 않는다.</p>
+<p>--no-merge
+:   잎(leaf) 함수를 병합하지 않는다.</p>
+<p>--no-pltbind
+:   동적 심볼 주소를 바인딩하지 않는다. (<em>LD_BIND_NOT</em>)</p>
+<p>--no-randomize-addr
+:   ASLR(Address Space Layout Randomization)을 비활성화 한다.</p>
+<p>--nop
+:   아무 작업도 하지 않는다. (성능 테스트 용)</p>
+<p>--num-thread=<em>NUM</em>
+:   데이터를 저장하기 위해 <em>NUM</em> 개의 쓰레드를 사용한다.</p>
+<p>-N, --notrace=<em>FUNC</em>
+:   FUNC들을 추적하지 않는다.</p>
+<p>-p, --pid=<em>PID</em>
+:   대화형 mcount 인스턴스의 <em>PID</em> 에 연결한다.</p>
+<p>--port=<em>PORT</em>
+:   네트워크 연결을 위해 <em>PORT</em> 를 사용한다. (기본값: 8090)</p>
+<p>-P, --patch=<em>FUNC</em>
+:   FUNC에 동적 패칭을 적용한다.</p>
+<p>--record
+:   주어진 스크립트를 실행하기 전에 새롭게 추적을 기록한다.</p>
+<p>--report
+:   replay 전 실시간 보고서를 보여준다.</p>
+<p>--rt-prio=<em>PRIO</em>
+:   실시간 (<em>FIFO</em>) 우선순위로 기록한다.</p>
+<p>-r, --time-range=<em>TIME</em>~<em>TIME</em>
+:   <em>TIME</em> 시간 안에서만 기록된 추적 결과를 보여준다.
+:   (타임스탬프 혹은 경과시간)</p>
+<p>--run-cmd=<em>CMDLINE</em>
+:   데이터를 수신한 다음에 주어진 (쉘)명령어를 바로
+:   실행한다.</p>
+<p>-R, --retval=<em>FUNC</em>[@retspec]
+:   함수 <em>FUNC</em>에 대한 반환값을 주어진
+:   uftrace retspec 에 맞게 보여준다.</p>
+<p>--sample-time=<em>TIME</em>
+:   설정한 샘플링 타임에 해당하는 Flame graph 를 보여준다.</p>
+<p>--signal=<em>SIGNAL</em>@act[,act,...]
+:   주어진 <em>SIGNAL</em> 을 받았을 때 주어진 액션을 실행한다.</p>
+<p>--sort-column=<em>INDEX</em>
+:   <em>INDEX</em> 열을 기준으로 diff 보고서를 정렬한다. (기본값: 2)</p>
+<p>--srcline
+:   가능한 각 함수들의 소스 줄번호를 표시한다.</p>
+<p>--symbols
+:   기록된 정보 대신에 심볼(symbol) 테이블을 출력한다.</p>
+<p>-s, --sort=<em>KEY</em>[,<em>KEY</em>,...]
+:   주어진 키를 기반으로 함수들을 정렬한다. (기본값: 2)</p>
+<p>-S, --script=<em>SCRIPT</em>
+:   함수의 시작과 끝에 주어진 <em>SCRIPT</em> 를 수행한다.</p>
+<p>-t, --time-filter=<em>TIME</em>
+:   설정한 시간 이하로 수행된 함수는 표시하지 않게 한다.</p>
+<p>--task
+:   일반적인 함수 그래프 대신 태스크 그래프를 출력한다.</p>
+<p>--task-newline
+:   태스크가 변경되면 빈 공백 한줄을 추가한다.</p>
+<p>--tid=<em>TID</em>[,<em>TID</em>,...]
+:   주어진 태스크에 의해 호출된 함수들만 출력한다.</p>
+<p>--time
+:   시간 정보를 출력한다.</p>
+<p>-T, --trigger=<em>FUNC</em>@act[,act,...]
+:   FUNC 의 트리거를 설정한다.</p>
+<p>-U, --unpatch=<em>FUNC</em>
+:   주어진 FUNC 함수에 대해 동적 패치를 적용하지 않는다.</p>
+<p>--with-syms=<em>DIR</em>
+:   <em>DIR</em> 디렉터리 안에 있는 심볼 파일들을 사용한다.</p>
+<p>-W, --watch=<em>POINT</em>
+:   <em>POINT</em> 가 변경되는 경우를 감시하고 기록한다.</p>
+<p>-Z, --size-filter=<em>SIZE</em>
+:   <em>SIZE</em> 보다 큰 함수들에 동적 패칭을 적용한다.</p>
+<p>더 구체적인 보조 명령별 옵션을 확인하기 위해선,
+아래에 나열된 메뉴얼 페이지를 참조하라.</p>
+<h1 id="_7">함께 보기</h1>
+<p><code>uftrace-live</code>(1), <code>uftrace-record</code>(1), <code>uftrace-replay</code>(1), <code>uftrace-report</code>(1), <code>uftrace-info</code>(1), <code>uftrace-dump</code>(1), <code>uftrace-recv</code>(1), <code>uftrace-graph</code>(1), <code>uftrace-script</code>(1), <code>uftrace-tui</code>(1)</p>
+<h1 id="_8">번역자</h1>
+<p>류준호 <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#114;&#117;&#117;&#106;&#111;&#111;&#110;&#57;&#51;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#114;&#117;&#117;&#106;&#111;&#111;&#110;&#57;&#51;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>, 김성진 <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#109;&#105;&#114;&#117;&#115;&#117;&#52;&#48;&#48;&#64;&#110;&#97;&#118;&#101;&#114;&#46;&#99;&#111;&#109;">&#109;&#105;&#114;&#117;&#115;&#117;&#52;&#48;&#48;&#64;&#110;&#97;&#118;&#101;&#114;&#46;&#99;&#111;&#109;</a></p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
