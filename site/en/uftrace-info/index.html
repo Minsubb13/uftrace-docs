@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Uftrace info - uftrace</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Uftrace info";
+        var mkdocs_page_input_path = "en/uftrace-info.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> uftrace
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Home</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../uftrace/">en</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ko/uftrace/">ko</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">uftrace</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Uftrace info</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p>% UFTRACE-INFO(1) Uftrace User Manuals
+% Namhyung Kim <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
+% Sep, 2018</p>
+<h1 id="name">NAME</h1>
+<p>uftrace-info - Print tracing information from the current trace data file</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>uftrace info [<em>options</em>]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>This command prints metadata recorded in the header of a given trace data file.</p>
+<p>Alternatively, it can:</p>
+<ul>
+<li>
+<p>be used to generate a symbol table of the traced symbols</p>
+</li>
+<li>
+<p>print a task relationship tree for the recorded tasks in the trace</p>
+</li>
+</ul>
+<h1 id="options">OPTIONS</h1>
+<p>--symbols [<em>EXECUTABLE</em>]
+:   Generate a symbol table for the given traced <em>EXECUTABLE</em> from the recorded
+    trace data. See the example below for the output format:
+    It will print two symbol tables - normal symbols and dynamic symbols:
+    The normal symbols are traced functions in the executable itself.
+    The dynamic symbols are the traced library functions recorded in the trace.
+    Because only the trace data is used to generate symbol information, it will
+    contain different functions than the symbol table of the executable file itself.</p>
+<p>--task
+:   Print a task relationship tree instead of the trace metadata.</p>
+<h1 id="examples">EXAMPLES</h1>
+<p>This command shows information like below:</p>
+<pre><code>$ uftrace record abc
+
+$ uftrace info
+# system information
+# ==================
+# program version     : v0.9 ( dwarf python tui perf sched )
+# recorded on         : Wed Sep 19 17:30:39 2018
+# cmdline             : uftrace record abc
+# cpu info            : Intel(R) Core(TM) i7-3930K CPU @ 3.20GHz
+# number of cpus      : 12 / 12 (online / possible)
+# memory info         : 19.8 / 23.5 GB (free / total)
+# system load         : 0.02 / 0.07 / 0.11 (1 / 5 / 15 min)
+# kernel version      : Linux 4.5.4-1-ARCH
+# hostname            : sejong
+# distro              : "Arch Linux"
+#
+# process information
+# ===================
+# number of tasks     : 1
+# task list           : 8284(abc)
+# exe image           : /home/namhyung/tmp/abc
+# build id            : a3c50d25f7dd98dab68e94ef0f215edb06e98434
+# pattern             : regex
+# exit status         : exited with code: 0
+# elapsed time        : 0.003219479 sec
+# cpu time            : 0.003 / 0.000 sec (sys / user)
+# context switch      : 1 / 1 (voluntary / involuntary)
+# max rss             : 3104 KB
+# page fault          : 0 / 169 (major / minor)
+# disk iops           : 0 / 24 (read / write)
+</code></pre>
+<p>To see the symbol table, one can use the <code>--symbols</code> option.</p>
+<pre><code>$ uftrace info --symbols
+Normal symbols
+==============
+[ 0] _start (0x400590) size: 42
+[ 1] __gmon_start__ (0x4005c0) size: 59
+[ 2] a (0x4006c6) size: 19
+[ 3] b (0x4006d9) size: 19
+[ 4] c (0x4006ec) size: 49
+[ 5] main (0x40071d) size: 19
+[ 6] __libc_csu_init (0x400730) size: 101
+[ 7] __libc_csu_fini (0x4007a0) size: 2
+[ 8] atexit (0x4007b0) size: 41
+
+Dynamic symbols
+===============
+[ 0] getpid (0x400530) size: 16
+[ 1] _mcleanup (0x400540) size: 16
+[ 2] __libc_start_main (0x400550) size: 16
+[ 3] __monstartup (0x400560) size: 16
+[ 4] mcount (0x400570) size: 16
+[ 5] __cxa_atexit (0x400580) size: 16
+</code></pre>
+<p>The <code>--task</code> option shows task family hierarchy.</p>
+<pre><code>$ uftrace info --task
+[166399] parent
+      [166401] child
+</code></pre>
+<h1 id="see-also">SEE ALSO</h1>
+<p><code>uftrace</code>(1), <code>uftrace-record</code>(1), <code>uftrace-tui</code>(1)</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

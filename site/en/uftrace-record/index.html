@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Uftrace record - uftrace</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Uftrace record";
+        var mkdocs_page_input_path = "en/uftrace-record.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> uftrace
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Home</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../uftrace/">en</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ko/uftrace/">ko</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">uftrace</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Uftrace record</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p>% UFTRACE-RECORD(1) Uftrace User Manuals
+% Namhyung Kim <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
+% Sep, 2018</p>
+<h1 id="name">NAME</h1>
+<p>uftrace-record - Run a command and record its trace data</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>uftrace record [<em>options</em>] COMMAND [<em>command-options</em>]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>This command runs COMMAND and gathers function trace data from it, and saves it
+into files under the uftrace data directory - without displaying anything.</p>
+<p>This data can then be inspected later on, using <code>uftrace replay</code> or
+<code>uftrace report</code>.</p>
+<h1 id="record-options">RECORD OPTIONS</h1>
+<p>-A <em>SPEC</em>, --argument=<em>SPEC</em>
+:   Record function arguments.  This option can be used more than once.
+    Implies --srcline.  See <em>ARGUMENTS</em>.</p>
+<p>-R <em>SPEC</em>, --retval=<em>SPEC</em>
+:   Record function return values.  This option can be used more than once.
+    Implies --srcline.  See <em>ARGUMENTS</em>.</p>
+<p>-P <em>FUNC</em>, --patch=<em>FUNC</em>
+:   Patch FUNC dynamically.  This option can be used more than once.
+    See <em>DYNAMIC TRACING</em>.</p>
+<p>-U <em>FUNC</em>, --unpatch=<em>FUNC</em>
+:   Do not apply dynamic patching for FUNC.  This option can be used more than once.
+    See <em>DYNAMIC TRACING</em>.</p>
+<p>-E <em>EVENT</em>, --event=<em>EVENT</em>
+:   Enable event tracing.  The event should be available on the system.</p>
+<p>-S <em>SCRIPT_PATH</em>, --script=<em>SCRIPT_PATH</em>
+:   Run a given script to do additional work at the entry and exit of function
+    during target program execution.
+    The type of script is detected by the postfix such as '.py' for python.
+    See <em>SCRIPT EXECUTION</em>.</p>
+<p>-W, --watch=<em>POINT</em>
+:   Add watch point to display POINT if the value is changed.  See <em>WATCH POINT</em>.</p>
+<p>-a, --auto-args
+:   Automatically record arguments and return values of known functions.
+    These are usually functions in standard (C language or system) libraries
+    but if debug info is available it includes functions in the user program.
+    Implies --srcline.</p>
+<p>-l, --nest-libcall
+:   Trace function calls between libraries.  By default, uftrace only record
+    library call from the main executable.  Implies <code>--force</code>.</p>
+<p>-k, --kernel
+:   Trace kernel functions as well as user functions.  By default, the tracing
+    depth is 1 (Only kernel entry/exit functions will be traced).
+    Use the <code>-K</code>/<code>--kernel-depth</code> option to override this.</p>
+<p>-K <em>DEPTH</em>, --kernel-depth=<em>DEPTH</em>
+:   Set kernel max function depth separately.  Implies <code>--kernel</code>.</p>
+<p>--clock=<em>CLOCK</em>
+:   Set clock source for timestamp recording.
+    <em>CLOCK</em> can be one of 'mono', 'mono_raw', or 'boot'.  Default is 'mono'.</p>
+<p>--host=<em>HOST</em>
+:   Send trace data to given host via the network, not writing to files.
+    The <code>uftrace recv</code> command should be run on the destination host to receive
+    the data.</p>
+<p>--port=<em>PORT</em>
+:   When sending data to the network (with <code>--host</code>), use the given port instead of
+    the default (8090).</p>
+<p>--signal=<em>TRG</em>
+:   Set trigger on selected signals rather than functions.  But there are
+    restrictions so only a few of trigger actions are support for signals.
+    The available actions are: trace_on, trace_off, finish.
+    This option can be used more than once.  See <em>TRIGGERS</em>.</p>
+<p>--nop
+:   Do not record any functions.  This is a no-op and only meaningful for
+    performance comparisons.</p>
+<p>--force
+:   Allow running uftrace even if some problems occur.  When <code>uftrace record</code>
+    finds no mcount symbol (which is generated by compiler) in the executable,
+    it quits with an error message since uftrace can not trace the program.
+    However, it is possible that the user is only interested in functions within
+    a dynamically-linked library, in which case this option can be used to cause
+    uftrace to run the program regardless.  Also, the <code>-A</code>/<code>--argument</code> and
+    <code>-R</code>/<code>--retval</code> options work only for binaries built with <code>-pg</code>, so uftrace
+    will normally exit when it tries to run binaries built without that option.
+    This option ignores the warning and goes on tracing without the argument
+    and/or return value.</p>
+<p>--time
+:   Print running time of children in <code>time</code>(1)-style.</p>
+<p>-e, --estimate-return
+:   Record only ENTRY data for each function.  This option is useful when the
+    target program deals with stack in some way.  Normally uftrace modifies
+    task's execution stack frame to hook return from the function.  However
+    sometimes it makes troubles and it's hard to handle all the cases properly.
+    This option tells uftrace not to hook return address in order to prevent
+    those problems.  The return time is estimated as a half of execution time
+    of two consecutive functions.</p>
+<h1 id="common-options">COMMON OPTIONS</h1>
+<p>-F <em>FUNC</em>, --filter=<em>FUNC</em>
+:   Set filter to trace selected functions and their children functions.
+    This option can be used more than once.  See <em>FILTERS</em>.</p>
+<p>-N <em>FUNC</em>, --notrace=<em>FUNC</em>
+:   Set filter not to trace selected functions and their children functions.
+    This option can be used more than once.  See <em>FILTERS</em>.</p>
+<p>-C <em>FUNC</em>, --caller-filter=<em>FUNC</em>
+:   Set filter to trace callers of selected functions only.
+    This option can be used more than once.  See <em>FILTERS</em>.</p>
+<p>-T <em>TRG</em>, --trigger=<em>TRG</em>
+:   Set trigger on selected functions.  This option can be used more than once.
+    See <em>TRIGGERS</em>.</p>
+<p>-D <em>DEPTH</em>, --depth=<em>DEPTH</em>
+:   Set global trace limit in nesting level.  See <em>FILTERS</em>.</p>
+<p>-t <em>TIME</em>, --time-filter=<em>TIME</em>
+:   Do not show functions which run under the time threshold.  If some functions
+    explicitly have the 'trace' trigger applied, those are always traced
+    regardless of execution time.  See <em>FILTERS</em>.</p>
+<p>-Z <em>SIZE</em>, --size-filter=<em>SIZE</em>
+:   Do not show functions smaller than SIZE bytes.  See <em>FILTERS</em>.</p>
+<p>-L <em>LOCATION</em>, --loc-filter=<em>LOCATION</em>
+:   Set filter to trace selected source locations.
+    This option can be used more than once. Implies --srcline. See <em>FILTERS</em>.</p>
+<p>--no-libcall
+:   Do not record library function invocations.  Library calls are normally
+    traced by hooking calls to the resolver function of dynamic linker in the PLT.
+    One can disable it with this option.</p>
+<p>--no-event
+:   Disable event recording which is used by default.  Note that explicit event
+    tracing by <code>--event</code> option is not affected by this.  Implies <code>--no-sched</code>.</p>
+<p>--no-sched
+:   Disable schedule event recording which is used by default.</p>
+<p>--match=<em>TYPE</em>
+:   Use pattern match using TYPE.  Possible types are <code>regex</code> and <code>glob</code>.
+    Default is <code>regex</code>.</p>
+<p>--disable
+:   DEPRECATED. Use <code>--trace=off</code> instead.</p>
+<p>--trace=<em>STATE</em>
+:   Set uftrace tracing STATE. Possible states are <code>on</code> and <code>off</code>. Default is
+    <code>on</code>. This is only meaningful when used with a <code>trace_on</code> trigger or with
+    the agent.</p>
+<p>--with-syms=<em>DIR</em>
+:   Read symbol data from the .sym files in <em>DIR</em> directory instead of the
+    binary.  This can be useful to deal with stripped binaries.  The file name
+    of the main binary should be the same when saved and used.</p>
+<h1 id="record-config-options">RECORD CONFIG OPTIONS</h1>
+<p>--libmcount-path=<em>PATH</em>
+:   Load libmcount libraries from this path.  This is mostly for testing purposes.</p>
+<p>-b <em>SIZE</em>, --buffer=<em>SIZE</em>
+:   Size of internal buffer in which trace data will be saved.  Default size is
+    128k.</p>
+<p>--kernel-buffer=<em>SIZE</em>
+:   Set kernel tracing buffer size.  The default value (in the kernel) is 1408k.</p>
+<p>--no-pltbind
+:   Do not bind dynamic symbol address.  This option uses the <code>LD_BIND_NOT</code>
+    environment variable to trace library function calls which might be missing
+    due to concurrent (first) accesses.  It is not meaningful to use this option
+    with the <code>--no-libcall</code> option.</p>
+<p>--max-stack=<em>DEPTH</em>
+:   Set the max function stack depth for tracing.  Default is 1024.</p>
+<p>--num-thread=<em>NUM</em>
+:   Use NUM threads to record trace data.  Default is 1/4 of online CPUs (but
+    when full kernel tracing is enabled, it will use the full number of CPUs).</p>
+<p>--libmcount-single
+:   Use single thread version of libmcount for faster recording.  This is
+    ignored if the target program links with the pthread library.</p>
+<p>--rt-prio=<em>PRIO</em>
+:   Boost priority of recording threads to real-time (FIFO) with priority of
+    <em>PRIO</em>.  This is particularly useful for high-volume data such as full
+    kernel tracing.</p>
+<p>--keep-pid
+:   Retain same pid for traced program.  For some daemon processes, it is
+    important to have same pid when forked.  Running under uftrace normally
+    changes pid as it calls fork() again internally.</p>
+<p>--no-randomize-addr
+:   Disable ASLR (Address Space Layout Randomization).  It makes the target
+    process fix its address space layout.</p>
+<p>-g, --agent
+:   Spawn an agent thread in the target.  At runtime, the agent receives
+    external commands and can change supported tracing options.  See <em>AGENT</em>
+    section in the <code>uftrace-live</code>(1).</p>
+<p>--srcline
+:   Enable recording source line in the debug info.</p>
+<h1 id="filters">FILTERS</h1>
+<p>The uftrace tool supports filtering out uninteresting functions.  Filtering is
+highly recommended since it helps users focus on the interesting functions and
+reduces the data size.  When uftrace is called it receives two types of function
+filter; an opt-in filter with <code>-F</code>/<code>--filter</code> and an opt-out filter with
+<code>-N</code>/<code>--notrace</code>.</p>
+<p>These filters can be applied either at record time or replay time.  They can be
+added and removed at runtime from the client.  See <code>uftrace-live</code>(1) for details
+about agent operations.</p>
+<p>The first type of filter is opt-in. By default, it doesn't trace anything.  But
+when one of the specified functions is executed, tracing is started.  When the
+function returns, tracing is stopped again.</p>
+<p>For example, consider a simple program which calls <code>a()</code>, <code>b()</code> and <code>c()</code> in turn.</p>
+<pre><code>$ cat abc.c
+void c(void) {
+    /* do nothing */
+}
+
+void b(void) {
+    c();
+}
+
+void a(void) {
+    b();
+}
+
+int main(void) {
+    a();
+    return 0;
+}
+
+$ gcc -pg -o abc abc.c
+</code></pre>
+<p>Normally uftrace will trace all the functions from <code>main()</code> to <code>c()</code>.</p>
+<pre><code>$ uftrace record ./abc
+$ uftrace replay
+# DURATION    TID     FUNCTION
+ 138.494 us [ 1234] | __cxa_atexit();
+            [ 1234] | main() {
+            [ 1234] |   a() {
+            [ 1234] |     b() {
+   3.880 us [ 1234] |       c();
+   5.475 us [ 1234] |     } /* b */
+   6.448 us [ 1234] |   } /* a */
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p>But when the <code>-F b</code> filter option is used, it will not trace <code>main()</code> or <code>a()</code>
+but only <code>b()</code> and <code>c()</code>.</p>
+<pre><code>$ uftrace record -F b ./abc
+$ uftrace replay
+# DURATION    TID     FUNCTION
+            [ 1234] | b() {
+   3.880 us [ 1234] |   c();
+   5.475 us [ 1234] | } /* b */
+</code></pre>
+<p>The second type of filter is opt-out. By default, everything is traced, but when
+one of the specified functions is executed, tracing stops.  When the excluded
+function returns, tracing is started again.</p>
+<p>In the above example, you can omit the function <code>b()</code> and all calls it makes
+with the <code>-N</code> option.</p>
+<pre><code>$ uftrace record -N b ./abc
+$ uftrace replay
+# DURATION    TID     FUNCTION
+ 138.494 us [ 1234] | __cxa_atexit();
+            [ 1234] | main() {
+   6.448 us [ 1234] |   a();
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p>If users only care about specific functions and want to know how they are called,
+one can use the caller filter.  It makes the function as leaf and records the
+parent functions to the function.</p>
+<pre><code>$ uftrace record -C b ./abc
+$ uftrace replay
+# DURATION    TID     FUNCTION
+            [ 1234] | main() {
+            [ 1234] |   a() {
+   5.475 us [ 1234] |     b();
+   6.448 us [ 1234] |   } /* a */
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p>In the above example, functions not in the calling path were not shown.  Also
+the function 'c' - which is a child of the function 'b' - is also hidden.</p>
+<p>Caller filters can be added and removed from the client at runtime, using the
+<code>@clear</code> suffix for the <code>-C</code> / <code>--caller-filter</code> option.</p>
+<p>In addition, you can limit the nesting level of functions with the <code>-D</code> option.</p>
+<pre><code>$ uftrace record -D 3 ./abc
+$ uftrace replay
+# DURATION    TID     FUNCTION
+ 138.494 us [ 1234] | __cxa_atexit();
+            [ 1234] | main() {
+            [ 1234] |   a() {
+   5.475 us [ 1234] |     b();
+   6.448 us [ 1234] |   } /* a */
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p>In the above example, uftrace only records functions up to a depth of 3, so
+leaf function <code>c()</code> was omitted.  Note that the <code>-D</code> option works with <code>-F</code>.</p>
+<p>Sometimes it's useful to see long-running functions only.  This is good because
+there are usually many tiny functions that are not interesting.
+The <code>-t</code>/<code>--time-filter</code> option implements the time-based filter that only
+records functions which run longer than the given threshold.  In the above
+example, the user might want to see functions running more than
+5 micro-seconds like below:</p>
+<pre><code>$ uftrace record -t 5us ./abc
+$ uftrace replay
+# DURATION    TID     FUNCTION
+ 138.494 us [ 1234] | __cxa_atexit();
+            [ 1234] | main() {
+            [ 1234] |   a() {
+   5.475 us [ 1234] |     b();
+   6.448 us [ 1234] |   } /* a */
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p>The <code>-t</code>/<code>--time-filter</code> option works for user-level functions only.  It does
+not work for recording kernel functions, but they can be hidden in replay, report,
+dump and graph commands with <code>-t</code>/<code>--time-filter</code> option.</p>
+<p>In addition, you can set filter to record selected source locations with <code>-L</code> option.</p>
+<pre><code>$ uftrace record -L s-libmain.c t-lib
+$ uftrace replay --srcline
+# DURATION     TID     FUNCTION [SOURCE]
+            [  5043] | main() { /* /home/uftrace/tests/s-libmain.c:16 */
+   6.998 us [  5043] |   foo(); /* /home/uftrace/tests/s-libmain.c:11 */
+   9.393 us [  5043] | } /* main */
+</code></pre>
+<p>You can set filter with the <code>@hide</code> suffix not to record selected source locations.</p>
+<pre><code>$ uftrace record -L s-libmain.c@hide t-lib
+$ uftrace replay --srcline
+# DURATION     TID     FUNCTION [SOURCE]
+            [ 14688] | lib_a() { /* /home/uftrace/tests/s-lib.c:10 */
+            [ 14688] |   lib_b() { /* /home/uftrace/tests/s-lib.c:15 */
+   1.505 us [ 14688] |     lib_c(); /* /home/uftrace/tests/s-lib.c:20 */
+   2.816 us [ 14688] |   } /* lib_b */
+   3.181 us [ 14688] | } /* lib_a */
+</code></pre>
+<p>The <code>-Z</code>/<code>--size-filter</code> option is to filter functions that has small sizes.
+It reads ELF symbols size and compare it with the given value.  The PLT
+functions may have no symbol size in the ELF format, in that case the PLT entry
+size will be used as the size of the function.</p>
+<pre><code>$ uftrace record -Z 100  t-arg
+$ uftrace replay
+# DURATION     TID     FUNCTION
+            [162500] | main() {
+  12.486 us [162500] |   foo();
+   0.505 us [162500] |   many();
+            [162500] |   pass() {
+   0.283 us [162500] |     check();
+   1.449 us [162500] |   } /* pass */
+  18.478 us [162500] | } /* main */
+</code></pre>
+<p>You can also set triggers on filtered functions.  See <em>TRIGGERS</em> section below
+for details.</p>
+<p>When kernel function tracing is enabled, you can also set the filters on kernel
+functions by marking the symbol with the <code>@kernel</code> modifier.  The following
+example will show all user functions and the (kernel) page fault handler.</p>
+<pre><code>$ sudo uftrace -k -F '.*page_fault@kernel' ./abc
+# DURATION    TID     FUNCTION
+           [14721] | main() {
+  7.713 us [14721] |   __do_page_fault();
+  6.600 us [14721] |   __do_page_fault();
+  6.544 us [14721] |   __do_page_fault();
+           [14721] |   a() {
+           [14721] |     b() {
+           [14721] |       c() {
+  0.860 us [14721] |         getpid();
+  2.346 us [14721] |       } /* c */
+  2.956 us [14721] |     } /* b */
+  3.340 us [14721] |   } /* a */
+ 79.086 us [14721] | } /* main */
+</code></pre>
+<h1 id="triggers">TRIGGERS</h1>
+<p>The uftrace tool supports triggering actions on selected function calls (with or
+without filters) and/or signals.  Currently supported triggers are listed below.
+The BNF for trigger specification is as follows:</p>
+<pre><code>&lt;trigger&gt;    :=  &lt;symbol&gt; "@" &lt;actions&gt;
+&lt;actions&gt;    :=  &lt;action&gt;  | &lt;action&gt; "," &lt;actions&gt;
+&lt;action&gt;     :=  "depth="&lt;num&gt; | "trace" | "trace_on" | "trace_off" |
+                 "time="&lt;time_spec&gt; | "size="&lt;num&gt; | "read="&lt;read_spec&gt; |
+                 "finish" | "filter" | "notrace" | "recover"
+                 "filter" | "notrace" | "recover"
+&lt;time_unit&gt;  :=  "ns" | "nsec" | "us" | "usec" | "ms" | "msec" | "s" | "sec" | "m" | "min"
+&lt;read_spec&gt;  :=  "proc/statm" | "page-fault" | "pmu-cycle" | "pmu-cache" | "pmu-branch"
+</code></pre>
+<p>The <code>depth</code> trigger is to change filter depth during execution of the function.
+It can be used to apply different filter depths for different functions.</p>
+<p>The following example shows how triggers work.  The global filter maximum depth
+is 5, but when function <code>b()</code> is called, it is changed to 1, so functions below
+<code>b()</code> will not be shown.</p>
+<pre><code>$ uftrace record -D 5 -T 'b@depth=1' ./abc
+$ uftrace replay
+# DURATION    TID     FUNCTION
+ 138.494 us [ 1234] | __cxa_atexit();
+            [ 1234] | main() {
+            [ 1234] |   a() {
+   5.475 us [ 1234] |     b();
+   6.448 us [ 1234] |   } /* a */
+   8.631 us [ 1234] | } /* main */
+</code></pre>
+<p>The <code>backtrace</code> trigger is only meaningful in the replay command.</p>
+<p>The <code>trace_on</code> and <code>trace_off</code> actions (the <code>_</code> can be omitted as <code>traceon</code>
+and <code>traceoff</code>) control whether uftrace records the specified functions or not.</p>
+<p>The 'recover' trigger is for some corner cases in which the process accesses the
+callstack directly.  For now it's not necessary to call it as uftrace does the
+job automatically.</p>
+<p>The 'time' trigger is to change time filter setting during execution of the
+function.  It can be used to apply different time filter for different functions.</p>
+<p>The <code>read</code> trigger is to read some information at runtime.  The result will be
+recorded as (builtin) events at the beginning and the end of a given function.
+As of now, following events are supported:</p>
+<ul>
+<li>"proc/statm": process memory stat from /proc filesystem</li>
+<li>"page-fault": number of page faults using getrusage(2)</li>
+<li>"pmu-cycle":  cpu cycles and instructions using Linux perf-event syscall</li>
+<li>"pmu-cache":  (cpu) cache-references and misses using Linux perf-event syscall</li>
+<li>"pmu-branch": branch instructions and misses using Linux perf-event syscall</li>
+</ul>
+<p>The results are printed as events (comments) like below.</p>
+<pre><code>$ uftrace record -T a@read=proc/statm ./abc
+$ uftrace replay
+# DURATION    TID     FUNCTION
+            [ 1234] | main() {
+            [ 1234] |   a() {
+            [ 1234] |     /* read:proc/statm (size=6808KB, rss=776KB, shared=712KB) */
+            [ 1234] |     b() {
+            [ 1234] |       c() {
+   1.448 us [ 1234] |         getpid();
+  10.270 us [ 1234] |       } /* c */
+  11.250 us [ 1234] |     } /* b */
+            [ 1234] |     /* diff:proc/statm (size=+4KB, rss=+0KB, shared=+0KB) */
+  18.380 us [ 1234] |   } /* a */
+  19.537 us [ 1234] | } /* main */
+</code></pre>
+<p>The 'finish' trigger is to end recording.  The process still can run and this
+can be useful to trace unterminated processes like daemon.</p>
+<p>The 'filter' and 'notrace' triggers have same effect as <code>-F</code>/<code>--filter</code> and
+<code>-N</code>/<code>--notrace</code> options respectively.</p>
+<p>Triggers only work for user-level functions for now.</p>
+<p>The trigger can be used for signals as well.  This is done by signal trigger
+with --signal option.  The syntax is similar to function trigger but only
+"trace_on", "trace_off" and "finish" trigger actions are supported.</p>
+<pre><code>$ uftrace record --signal 'SIGUSR1@finish' ./some-daemon
+</code></pre>
+<h1 id="arguments">ARGUMENTS</h1>
+<p>The uftrace tool supports recording function arguments and/or return values
+using the -A/--argument and -R/--retval options respectively.
+The syntax is very similar to that of triggers:</p>
+<pre><code>&lt;argument&gt;    :=  &lt;symbol&gt; [ "@" &lt;specs&gt; ]
+&lt;specs&gt;       :=  &lt;spec&gt; | &lt;spec&gt; "," &lt;spec&gt;
+&lt;spec&gt;        :=  ( &lt;int_spec&gt; | &lt;float_spec&gt; | &lt;ret_spec&gt; )
+&lt;int_spec&gt;    :=  "arg" N [ "/" &lt;format&gt; [ &lt;size&gt; ] ] [ "%" ( &lt;reg&gt; | &lt;stack&gt; ) ]
+&lt;float_spec&gt;  :=  "fparg" N [ "/" ( &lt;size&gt; | "80" ) ] [ "%" ( &lt;reg&gt; | &lt;stack&gt; ) ]
+&lt;ret_spec&gt;    :=  "retval" [ "/" &lt;format&gt; [ &lt;size&gt; ] ]
+&lt;format&gt;      :=  "d" | "i" | "u" | "x" | "o" | "s" | "c" | "f" | "S" | "p"
+&lt;size&gt;        :=  "8" | "16" | "32" | "64"
+&lt;reg&gt;         :=  &lt;arch-specific register name&gt;  # "rdi", "xmm0", "r0", ...
+&lt;stack&gt;       :=  "stack" [ "+" ] &lt;offset&gt;
+</code></pre>
+<p>The -A/--argument option takes a symbol name pattern and its optional specs.
+The spec is started by argN where N is an index of the arguments.  The index
+starts from 1 and corresponds to the argument passing order of the calling
+convention on the system.  Note that the indexes of arguments are separately
+counted for integer (or pointer) and floating-point type, and they can interfere
+depending on the calling convention.  The argN is for integer arguments and
+fpargN is for floating-point arguments.</p>
+<p>Users can optionally specify a format and size for the arguments and/or return
+values.  The "d" format or without format field, uftrace treats them as
+'long int' type for integers and 'double' for floating-point numbers.
+The "i" format makes it signed integer type and "u" format is for unsigned
+type.  Both are printed as decimal while "x" format makes it printed as
+hexadecimal, and "o" format makes it printed as octal.  The "s" format is for
+null-terminated string type and "c" format is for character type.
+The "f" format is for floating-point type and is
+meaningful only for return value (generally).  Note that fpargN doesn't take
+the format field since it's always floating-point.  The "S" format is for
+std::string, but it only supports libstdc++ library as of yet.  Finally,
+the "p" format is for function pointer. Once the target address is recorded,
+it will be displayed as function name.</p>
+<p>Please beware when using string type arguments since it can crash the program
+if the (pointer) value is invalid.  Actually uftrace tries to keep track of
+valid ranges of process address space but it might miss some corner cases.</p>
+<p>It is also possible to specify a certain register name or stack offset for
+arguments (but not for return value).  The following register names can be used
+for argument:</p>
+<ul>
+<li>x86: rdi, rsi, rdx, rcx, r8, r9 (for integer), xmm[0-7] (for floating-point)</li>
+<li>arm: r[0-3] (for integer), s[0-15] or d[0-7] (for floating-point)</li>
+</ul>
+<p>Examples are below:</p>
+<pre><code>$ uftrace record -A main@arg1/x -R main@retval/i32 ./abc
+$ uftrace replay
+# DURATION    TID     FUNCTION
+ 138.494 us [ 1234] | __cxa_atexit();
+            [ 1234] | main(0x1) {
+            [ 1234] |   a() {
+            [ 1234] |     b() {
+   3.880 us [ 1234] |       c();
+   5.475 us [ 1234] |     } /* b */
+   6.448 us [ 1234] |   } /* a */
+   8.631 us [ 1234] | } = 0; /* main */
+
+$ uftrace record -A puts@arg1/s -R puts@retval ./hello
+Hello world
+
+$ uftrace replay
+# DURATION    TID     FUNCTION
+   1.457 us [21534] | __monstartup();
+   0.997 us [21534] | __cxa_atexit();
+            [21534] | main() {
+   7.226 us [21534] |   puts("Hello world") = 12;
+   8.708 us [21534] | } /* main */
+</code></pre>
+<p>Note that these arguments and return value are recorded only if the executable
+was built with the <code>-pg</code> option.  Executables built with <code>-finstrument-functions</code>
+will ignore it except for library calls.  Recording of arguments and return
+values only works with user-level functions for now.</p>
+<p>If the target program is built with debug info like DWARF, uftrace can identify
+number of arguments and their types automatically (when built with libdw).
+Also arguments and return value of some well-known library functions are
+provided even if the debug info is not available.  In these cases user don't
+need to specify spec of the arguments and return value manually - just a
+function name (or pattern) is enough.  In fact, manual argspec will suppress
+the automatic argspec.</p>
+<p>For example, the above example can be written like below:</p>
+<pre><code>$ uftrace record -A . -R main ./hello
+Hello world
+
+$ uftrace replay -F main
+# DURATION     TID     FUNCTION
+            [ 18948] | main(1, 0x7ffeeb7590b8) {
+   7.183 us [ 18948] |   puts("Hello world");
+   9.832 us [ 18948] | } = 0; /* main */
+</code></pre>
+<p>Note that argument pattern (".") matches to any character so it recorded
+all (supported) functions.  It shows two arguments for "main" and a single
+string argument for "puts".  If you simply want to see all arguments and
+return values of every functions (if supported), use -a/--auto-args option.</p>
+<h1 id="dynamic-tracing">DYNAMIC TRACING</h1>
+<h2 id="full-dynamic-tracing">FULL DYNAMIC TRACING</h2>
+<p>The uftrace tool supports dynamic function tracing which can be enabled at
+runtime (load-time, to be precise) on x86_64 and AArch64.  Before recording
+functions, normally you need to build the target program with <code>-pg</code> (or
+<code>-finstrument-functions</code>), then it has some performance impact because all
+functions call <code>mcount()</code>.</p>
+<p>With dynamic tracing, you can trace specific functions only given by the
+<code>-P</code>/<code>--patch</code> option and can also disable specific functions given by the
+<code>-U</code>/<code>--unpatch</code> option.  With capstone disassembly engine you even don't need
+to (re)compile the target with the option above.  Now uftrace can analyze the
+instructions and (if possible) it can copy them to a different place and rewrite
+it to call <code>mcount()</code> function so that it can be traced by uftrace.  After that
+the control is passed to the copied instructions and then returned back to the
+remaining instructions.</p>
+<p>The following example shows an error message when normally running uftrace.
+Because the binary doesn't call any instrumentation code (i.e. 'mcount').</p>
+<pre><code>$ gcc -o abc tests/s-abc.c
+$ uftrace abc
+uftrace: /home/namhyung/project/uftrace/cmd-record.c:1305:check_binary
+  ERROR: Can't find 'mcount' symbol in the 'abc'.
+         It seems not to be compiled with -pg or -finstrument-functions flag
+         which generates traceable code.  Please check your binary file.
+</code></pre>
+<p>But when the <code>-P a</code> patch option is used, and then only it can dynamically
+trace <code>a()</code>.</p>
+<pre><code>$ uftrace record --no-libcall -P a abc
+$ uftrace replay
+# DURATION    TID     FUNCTION
+   0.923 us [19379] | a();
+</code></pre>
+<p>In addition, you can enable all functions using '.' (for glob, '*') that
+matches to any character in a regex pattern with <code>P</code> option.</p>
+<pre><code>$ uftrace record --no-libcall -P . abc
+$ uftrace replay
+# DURATION    TID     FUNCTION
+            [19387] | main() {
+            [19387] |   a() {
+            [19387] |     b() {
+   0.940 us [19387] |       c();
+   2.030 us [19387] |     } /* b */
+   2.451 us [19387] |   } /* a */
+   3.289 us [19387] | } /* main */
+</code></pre>
+<p>Note that <code>-U</code> option has the opposite effect of <code>-P</code> option so users can
+the both to fine-control.  The option comes later will override the formers.
+For example if you want to trace all functions but 'a' in the above:</p>
+<pre><code>$ uftrace record --no-libcall -P . -U a  abc
+$ uftrace replay
+# DURATION    TID     FUNCTION
+            [19390] | main() {
+            [19390] |   b() {
+   0.983 us [19390] |     c();
+   2.012 us [19390] |   } /* b */
+   3.373 us [19390] | } /* main */
+</code></pre>
+<p>The order of the options is important, if you change it like <code>-U a -P .</code> then
+it will trace all the functions since <code>-P .</code> will be effective for all.</p>
+<h2 id="gcc-fentry">GCC FENTRY</h2>
+<p>If the capstone is not available, you need to add some more compiler (gcc)
+options when building the target program.  The gcc 5.1 or more recent versions
+provide <code>-mfentry</code> and <code>-mnop-mcount</code> options which add instrumentation code
+(i.e.  calling <code>mcount()</code> function) at the very beginning of a function and
+convert the instruction to a NOP.  Then it has almost zero performance overhead
+when running in a normal condition.  The uftrace can selectively convert it
+back to call <code>mcount()</code> using <code>-P</code> option.</p>
+<pre><code>$ gcc -pg -mfentry -mnop-mcount -o abc-fentry tests/s-abc.c
+$ uftrace record -P . --no-libcall abc-fentry
+$ uftrace replay
+# DURATION     TID     FUNCTION
+            [ 18973] | main() {
+            [ 18973] |   a() {
+            [ 18973] |     b() {
+   0.852 us [ 18973] |       c();
+   2.378 us [ 18973] |     } /* b */
+   2.909 us [ 18973] |   } /* a */
+   3.756 us [ 18973] | } /* main */
+</code></pre>
+<h2 id="clang-xray">CLANG XRAY</h2>
+<p>Clang/LLVM 4.0 provides a dynamic instrumentation technique called
+<a href="http://llvm.org/docs/XRay.html">X-ray</a>.  It's similar to a combination of
+<code>gcc -mfentry -mnop-mcount</code> and <code>-finstrument-functions</code>.  The uftrace also
+supports dynamic tracing on the executables built with the <code>X-ray</code>.</p>
+<p>For example, you can build the target program by clang with the below option
+and equally use <code>-P</code> option for dynamic tracing like below:</p>
+<pre><code>$ clang -fxray-instrument -fxray-instruction-threshold=1 -o abc-xray  tests/s-abc.c
+$ uftrace record -P main abc-xray
+$ uftrace replay
+# DURATION    TID     FUNCTION
+            [11093] | main() {
+   1.659 us [11093] |   getpid();
+   5.963 us [11093] | } /* main */
+
+$ uftrace record -P . abc-xray
+$ uftrace replay
+# DURATION    TID     FUNCTION
+            [11098] | main() {
+            [11098] |   a() {
+            [11098] |     b() {
+            [11098] |       c() {
+   0.753 us [11098] |         getpid();
+   1.430 us [11098] |       } /* c */
+   1.915 us [11098] |     } /* b */
+   2.405 us [11098] |   } /* a */
+   3.005 us [11098] | } /* main */
+</code></pre>
+<h2 id="patchable-function-entry">PATCHABLE FUNCTION ENTRY</h2>
+<p>Recent compilers in both gcc and clang support another useful option
+<code>-fpatchable-function-entry=N[,M]</code> that generates M NOPs before the function
+entry and N-M NOPs after the function entry.  We can simply use the case when M
+is 0 so <code>-fpatchable-function-entry=N</code> is enough.  The number of NOPs required
+for dynamic tracing depends on the architecture but x86_64 requires 5 NOPs and
+AArch64 requires 2 NOPs to dynamically patch a call instruction for uftrace
+recording.</p>
+<p>For example in x86_64, you can build the target program and trace as follows.</p>
+<pre><code>$ gcc -fpatchable-function-entry=5 -o abc-fpatchable tests/s-abc.c
+$ uftrace record -P . abc-fpatchable
+$ uftrace replay
+# DURATION     TID     FUNCTION
+            [  6818] | main() {
+            [  6818] |   a() {
+            [  6818] |     b() {
+            [  6818] |       c() {
+   0.926 us [  6818] |         getpid();
+   4.158 us [  6818] |       } /* c */
+   4.590 us [  6818] |     } /* b */
+   4.957 us [  6818] |   } /* a */
+   5.593 us [  6818] | } /* main */
+</code></pre>
+<p>This feature can also be used by explicitly adding compiler attribute to some
+specific functions with <code>__attribute__ ((patchable_function_entry (N,M)))</code>.
+For example, the 'tests/s-abc.c' program can be modified as follows.</p>
+<pre><code>static int c(void)
+{
+        return 100000;
+}
+
+__attribute__((patchable_function_entry(5)))
+static int b(void)
+{
+        return c() + 1;
+}
+
+static int a(void)
+{
+        return b() - 1;
+}
+
+__attribute__((patchable_function_entry(5)))
+int main(void)
+{
+        int ret = 0;
+
+        ret += a();
+        return ret ? 0 : 1;
+}
+</code></pre>
+<p>The attribute is added to function 'main' and 'b' only and this program can
+normally be compiled without any additional compiler options, but the compiler
+detects the attributes and adds 5 NOPs at the entry of 'main' and 'b'.</p>
+<pre><code>$ gcc -o abc tests/s-patchable-abc.c
+$ uftrace record -P . abc
+$ uftrace replay
+# DURATION     TID     FUNCTION
+            [ 20803] | main() {
+   0.342 us [ 20803] |   b();
+   1.608 us [ 20803] | } /* main */
+</code></pre>
+<p>With this way, uftrace can selectively trace only the functions user wants by
+explicitly adding the attribute.  This approach can collect trace records in a
+much less intrusive way compared to tracing the entire functions enabled by
+compiler flags.</p>
+<p><code>-fpatchable-function-entry=N[,M]</code> option and its attribute are supported since
+gcc-8.1 and clang-10.
+This dynamic tracing feature can be used in both x86_64 and AArch64 as of now.</p>
+<h1 id="script-execution">SCRIPT EXECUTION</h1>
+<p>The uftrace tool supports script execution for each function entry and exit.
+The supported script types are Python 2.7, Python 3 and Lua 5.1 as of now.</p>
+<p>The user can write four functions. 'uftrace_entry' and 'uftrace_exit' are
+executed whenever each function is executed at the entry and exit.  However
+'uftrace_begin' and 'uftrace_end' are only executed once when the target program
+begins and ends.</p>
+<pre><code>$ cat scripts/simple.py
+def uftrace_begin(ctx):
+    print("program begins...")
+
+def uftrace_entry(ctx):
+    func = ctx["name"]
+    print("entry : " + func + "()")
+
+def uftrace_exit(ctx):
+    func = ctx["name"]
+    print("exit  : " + func + "()")
+
+def uftrace_end():
+    print("program is finished")
+</code></pre>
+<p>The above script can be executed in record time as follows:</p>
+<pre><code>$ uftrace record -S scripts/simple.py -F main tests/t-abc
+program begins...
+entry : main()
+entry : a()
+entry : b()
+entry : c()
+entry : getpid()
+exit  : getpid()
+exit  : c()
+exit  : b()
+exit  : a()
+exit  : main()
+program is finished
+</code></pre>
+<p>The 'ctx' variable is a dictionary type that contains the below information.</p>
+<pre><code>/* context information passed to uftrace_entry(ctx) and uftrace_exit(ctx) */
+script_context = {
+    int       tid;
+    int       depth;
+    long      timestamp;
+    long      duration;    # exit only
+    long      address;
+    string    name;
+    list      args;        # entry only (if available)
+    value     retval;      # exit  only (if available)
+};
+
+/* context information passed to uftrace_begin(ctx) */
+script_context = {
+    bool      record;      # True if it runs at record time, otherwise False
+    string    version;     # uftrace version info
+    list      cmds;        # execution commands
+};
+</code></pre>
+<p>Each field in 'script_context' can be read inside the script.
+Please see <code>uftrace-script</code>(1) for details about scripting.</p>
+<h1 id="watch-point">WATCH POINT</h1>
+<p>The uftrace watch point is to display certain value only if it's changed.
+It's conceptually same as other debuggers but only works at function entry and exit
+so it might miss some updates.</p>
+<p>As of now, following watch points are supported:</p>
+<ul>
+<li>"cpu" : cpu number current task is running on</li>
+<li>"var": read value of a global variable given after ":".</li>
+</ul>
+<p>Like read triggers, the result is displayed as event (comment):</p>
+<pre><code>$ uftrace -W cpu tests/t-abc
+# DURATION     TID     FUNCTION
+            [ 19060] | main() {
+            [ 19060] |   /* watch:cpu (cpu=8) */
+            [ 19060] |   a() {
+            [ 19060] |     b() {
+            [ 19060] |       c() {
+   2.365 us [ 19060] |         getpid();
+   8.002 us [ 19060] |       } /* c */
+   8.690 us [ 19060] |     } /* b */
+   9.350 us [ 19060] |   } /* a */
+  12.479 us [ 19060] | } /* main */
+</code></pre>
+<p>This is how to use 'var' watchpoints:</p>
+<pre><code> $ uftrace -W var:mydata a.out
+ # DURATION     TID     FUNCTION
+             [239842] | __monstartup() {
+             [239842] |   /* watch:var (mydata=7) */
+    3.534 us [239842] | } /* __monstartup */
+    0.191 us [239842] | __cxa_atexit();
+             [239842] | main() {
+             [239842] |   foo() {
+             [239842] |     /* watch:var (mydata=42) */
+    0.381 us [239842] |     bar();
+    1.069 us [239842] |   } /* foo */
+    2.698 us [239842] | } /* main */
+</code></pre>
+<h1 id="see-also">SEE ALSO</h1>
+<p><code>uftrace</code>(1), <code>uftrace-replay</code>(1), <code>uftrace-report</code>(1), <code>uftrace-recv</code>(1), <code>uftrace-graph</code>(1), <code>uftrace-script</code>(1), <code>uftrace-tui</code>(1)</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

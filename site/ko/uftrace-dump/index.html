@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Uftrace dump - uftrace</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Uftrace dump";
+        var mkdocs_page_input_path = "ko/uftrace-dump.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> uftrace
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Home</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../en/uftrace/">en</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../uftrace/">ko</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">uftrace</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Uftrace dump</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p>% UFTRACE-DUMP(1) Uftrace User Manuals
+% Namhyung Kim <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
+% Sep, 2018</p>
+<h1 id="_1">이름</h1>
+<p>uftrace-dump - 기록된 데이터를 다양한 형식으로 출력한다.</p>
+<h1 id="_2">사용법</h1>
+<p>uftrace dump [<em>options</em>]</p>
+<h1 id="_3">설명</h1>
+<p>데이터 파일에 기록된 데이터를 보여주는 명령어이다. 출력 형식은
+--chrome, --flame-graph 또는 --graphviz 와 같은 옵션으로 설정할 수 있다.</p>
+<h1 id="dump">DUMP 옵션</h1>
+<p>--chrome
+:   구글 크롬 추적 기능에서 사용되는 JSON 형식의 결과물을 표시한다.</p>
+<p>--flame-graph
+:   최신 웹 브라우저에서 볼 수 있는 FlameGraph 형식으로 표시한다.
+    (FlameGraph 툴로 처리 필요)</p>
+<p>--graphviz
+:   Graphviz 툴킷에서 사용되는 DOT 형식의 결과물을 표시한다.</p>
+<p>--mermaid
+:   그래프를 오픈소스 mermaid의 플로우차트 다이어 그램으로 표시한다.
+    출력값은 브라우저에서 렌더링될 수 있다.</p>
+<p>--debug
+:   16진수 데이터를 보여준다.</p>
+<p>--sample-time=<em>시간</em>
+:   --flame-graph 옵션의 결과물을 생성할 때 샘플링 시간을 적용한다. 기본으로는
+    각 함수의 호출 수가 적용된다. 이 옵션이 사용되면 주어진 단위로 실행 시간을
+    계산하여 샘플링한다. 만약 주어진 샘플링 시간보다 적게 수행된 함수는 결과물
+    에서 제외되지만, 더 길게 수행된 함수는 표시된다.</p>
+<p>--no-args
+:   함수 인자를 표시하지 않고 값을 반환한다.</p>
+<h1 id="_4">공통 옵션</h1>
+<p>-F <em>FUNC</em>, --filter=<em>FUNC</em>
+:   선택된 함수들(그리고 그 내부의 함수들)만 출력하도록 필터를 설정한다.
+    이 옵션은 한번 이상 쓰일 수 있다. 필터에 대한 설명은 <code>uftrace-replay</code>(1) 를
+    참고한다.</p>
+<p>-N <em>FUNC</em>, --notrace=<em>FUNC</em>
+:   선택된 함수들 (또는 그 아래 함수들)을 출력에서 제외하도록 설정하는 옵션이다.
+    이 옵션은 한번 이상 쓰일 수 있다. 필터에 대한 설명은 <code>uftrace-replay</code>(1) 를
+    참고한다.</p>
+<p>-C <em>FUNC</em>, --caller-filter=<em>FUNC</em>
+:   선택된 함수의 호출자를 출력하는 필터를 설정한다. 이 옵션은 한번 이상 쓰일 수 있다.
+    필터에 대한 설명은 <code>uftrace-replay</code>(1) 를 참고한다.</p>
+<p>-T <em>TRG</em>, --trigger=<em>TRG</em>
+:   선택된 함수의 트리거를 설정한다. 이 옵션은 한번 이상 쓰일 수 있다.
+    트리거에 대한 설명은 <code>uftrace-replay</code>(1) 를 참고한다.</p>
+<p>-D <em>DEPTH</em>, --depth=<em>DEPTH</em>
+:   함수가 중첩될 수 있는 최대 깊이를 설정한다.
+    (이를 넘어서는 상세한 함수 실행과정은 무시한다.)</p>
+<p>-t <em>TIME</em>, --time-filter=<em>TIME</em>
+:   설정한 시간 이하로 수행된 함수는 표시하지 않게 한다. 만약 어떤 함수가
+    명시적으로 'trace' 트리거가 적용된 경우, 그 함수는 실행 시간과 상관없이 항상
+    출력된다.</p>
+<p>-Z <em>SIZE</em>, --size-filter=<em>SIZE</em>
+:   SIZE 바이트보다 작은 함수들을 표시하지 않게 한다. 만약 어떤 함수가 명시적으로
+    'trace' 트리거가 적용된 경우, 그 함수는 함수 크기와 상관없이 항상 출력된다.</p>
+<p>-L <em>LOCATION</em>, --loc-filter=<em>LOCATION</em>
+:   사용할 필터의 경로를 지정한다.
+    이 옵션은 1번이상 사용할 수 있다.</p>
+<p>--no-libcall
+:   라이브러리 호출은 표시하지 않게 한다.</p>
+<p>--no-event
+:   이벤트들을 표시하지 않게 한다.  <code>--no-sched</code> 옵션을 내포한다.</p>
+<p>--no-sched
+:   스케줄 이벤트를 표시하지 않게 한다.</p>
+<p>--match=<em>TYPE</em>
+:   타입(TYPE)으로 일치하는 패턴을 보여준다. 가능한 형태는 <code>regex</code>와 <code>glob</code>이다.
+    기본 설정은 <code>regex</code>이다.</p>
+<p>--with-syms=<em>DIR</em>
+:   DIR 디렉토리의 .sym 파일에서 심볼(symbol) 데이터를 읽는다.
+    이는 심볼(symbol) 데이터가 제거된 바이너리 파일을 다루는데 유용하다.
+    바이너리 파일 이름은 저장할 때와 사용할 때 동일해야 한다.</p>
+<h1 id="_5">공통 분석 옵션</h1>
+<p>-H <em>FUNC</em>, --hide=<em>FUNC</em>
+:   주어진 FUNC 함수들을 출력 대상에서 제외할 수 있다.  이는 선택된 함수의 자식
+    함수들에 대해서는 영향을 주지 않으며 단지 주어진 함수들만 숨기는 기능을 하게
+    된다. 이 옵션은 한번 이상 쓰일 수 있다.</p>
+<p>--kernel-full
+:   사용자 함수 밖에서 호출된 모든 커널 함수를 출력한다.
+    이 옵션은 --chrome, --flame-graph 또는 --graphviz 옵션과 함께 사용될 때만
+    의미가 있다.</p>
+<p>--kernel-only
+:   사용자 함수를 제외한 커널 함수만 출력한다.</p>
+<p>--event-full
+:   사용자 함수 밖의 모든 (사용자) 이벤트를 출력한다.
+    이 옵션은 --chrome, --flame-graph 또는 --graphviz 옵션과 함께 사용될 때만
+    의미가 있다.</p>
+<p>--tid=<em>TID</em>[,<em>TID</em>,...]
+:   주어진 태스크에 의해 호출된 함수들만 출력한다. <code>uftrace report --task</code>
+    또는 <code>uftrace info</code> 를 이용해 데이터 파일 내의 태스크 목록을 볼 수 있다.
+    이 옵션은 한번 이상 쓰일 수 있다.</p>
+<p>--demangle=<em>TYPE</em>
+:   필터, 트리거, 함수인자와 (또는) 반환 값을 디맹글(demangle)된 C++ 심볼
+    이름으로 사용한다. "full", "simple", "no" 값을 사용할 수 있다.
+    기본 설정은 "simple"이며, 템플릿 파라미터와 함수 인자를 무시한다.</p>
+<p>-r <em>RANGE</em>, --time-range=<em>RANGE</em>
+:   시간 범위 RANGE 내에 실행된 함수들만 출력한다. RANGE 는 \&lt;시작&gt;~\&lt;끝&gt;
+    ("~"로 구분) 이고 \&lt;시작&gt;과 \&lt;끝&gt; 중 하나는 생략할 수 있다. \&lt;시작&gt;과
+    \&lt;끝&gt;은 타임스탬프 또는 '100us'와 같은 \&lt;시간단위&gt;가 있는 경과시간이다.
+    <code>uftrace replay</code>(1) 에서 <code>-f time</code> 또는 <code>-f elapsed</code> 를 이용해 타임스탬프
+    또는 경과시간을 확인할 수 있다.</p>
+<h1 id="_6">예제</h1>
+<p>이 명령어는 아래와 같은 결과를 출력한다.</p>
+<pre><code>$ uftrace record abc
+
+$ uftrace dump
+uftrace file header: magic         = 4674726163652100
+uftrace file header: version       = 4
+uftrace file header: header size   = 40
+uftrace file header: endian        = 1 (little)
+uftrace file header: class         = 2 (64 bit)
+uftrace file header: features      = 0x63 (PLTHOOK | TASK_SESSION | SYM_REL_ADDR | MAX_STACK)
+uftrace file header: info          = 0x3ff
+
+reading 23043.dat
+105430.415350255  23043: [entry] __monstartup(4004d0) depth: 0
+105430.415351178  23043: [exit ] __monstartup(4004d0) depth: 0
+105430.415351932  23043: [entry] __cxa_atexit(4004f0) depth: 0
+105430.415352687  23043: [exit ] __cxa_atexit(4004f0) depth: 0
+105430.415353833  23043: [entry] main(400512) depth: 0
+105430.415353992  23043: [entry] a(4006b2) depth: 1
+105430.415354112  23043: [entry] b(4006a0) depth: 2
+105430.415354230  23043: [entry] c(400686) depth: 3
+105430.415354425  23043: [entry] getpid(4004b0) depth: 4
+105430.415355035  23043: [exit ] getpid(4004b0) depth: 4
+105430.415355549  23043: [exit ] c(400686) depth: 3
+105430.415355761  23043: [exit ] b(4006a0) depth: 2
+105430.415355943  23043: [exit ] a(4006b2) depth: 1
+105430.415356109  23043: [exit ] main(400512) depth: 0
+
+$ uftrace dump --chrome -F main
+{"traceEvents":[
+{"ts":105430415353,"ph":"B","pid":23043,"name":"main"},
+{"ts":105430415353,"ph":"B","pid":23043,"name":"a"},
+{"ts":105430415354,"ph":"B","pid":23043,"name":"b"},
+{"ts":105430415354,"ph":"B","pid":23043,"name":"c"},
+{"ts":105430415354,"ph":"B","pid":23043,"name":"getpid"},
+{"ts":105430415355,"ph":"E","pid":23043,"name":"getpid"},
+{"ts":105430415355,"ph":"E","pid":23043,"name":"c"},
+{"ts":105430415355,"ph":"E","pid":23043,"name":"b"},
+{"ts":105430415355,"ph":"E","pid":23043,"name":"a"},
+{"ts":105430415356,"ph":"E","pid":23043,"name":"main"}
+], "metadata": {
+"command_line":"uftrace record abc ",
+"recorded_time":"Tue May 24 19:44:54 2016"
+} }
+
+$ uftrace dump --flame-graph --sample-time 1us
+main 1
+main;a;b;c 1
+
+$ uftrace dump --graphviz
+\# command_line "uftrace record tests/t-abc"
+digraph "/home/m/git/uftrace/tests/t-abc" {
+        \# Attributes
+        splines=ortho;
+        concentrate=true;
+        node [shape="rect",fontsize="7",style="filled"];
+        edge [fontsize="7"];
+        \# Elements
+        main[xlabel = "Calls : 1"]
+        main-&gt;a[xlabel = "Calls : 1"]
+        a-&gt;b[xlabel = "Calls : 1"]
+        b-&gt;c[xlabel = "Calls : 1"]
+        c-&gt;getpid[xlabel = "Calls : 1"]
+}
+</code></pre>
+<h1 id="_7">함께 보기</h1>
+<p><code>uftrace</code>(1), <code>uftrace-record</code>(1), <code>uftrace-replay</code>(1)</p>
+<h1 id="_8">번역자</h1>
+<p>민지수 <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#107;&#117;&#111;&#110;&#103;&#101;&#101;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#107;&#117;&#111;&#110;&#103;&#101;&#101;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a></p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

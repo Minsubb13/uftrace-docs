@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>en - uftrace</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "en";
+        var mkdocs_page_input_path = "en/uftrace.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> uftrace
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Home</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">en</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ko/uftrace/">ko</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">uftrace</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Home</li>
+      <li class="breadcrumb-item active">en</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p>% UFTRACE(1) Uftrace User Manuals
+% Namhyung Kim <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
+% Sep, 2018</p>
+<h1 id="name">NAME</h1>
+<p>uftrace - Function graph tracer for userspace</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>uftrace [<em>record</em>|<em>replay</em>|<em>live</em>|<em>report</em>|<em>info</em>|<em>dump</em>|<em>recv</em>|<em>graph</em>|<em>script</em>|<em>tui</em>] [<em>options</em>] COMMAND [<em>command-options</em>]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>The uftrace tool is a function tracer that traces the execution of given
+<code>COMMAND</code> at the function level.  <code>COMMAND</code> should be a C or C++ executable
+built with compiler instrumentation (<code>-pg</code> or <code>-finstrument-functions</code>).
+COMMAND needs to have an ELF symbol table (i.e. not be <code>strip</code>(1)-ed) in order
+for the names of traced functions to be available.</p>
+<p>The uftrace command consists of a number of sub-commands, in the manner of
+<code>git</code>(1) or <code>perf</code>(1).  Below is a short description of each sub-command.
+For more detailed information, see the respective manual pages.  The options
+in this page can be given to any sub-command also.</p>
+<p>For convenience, if no sub-command is given, uftrace acts as though the <code>live</code>
+sub-command was specified, which runs the <code>record</code> and <code>replay</code> sub-commands in
+turn.  See <code>uftrace-live</code>(1) for options belonging to the <code>live</code> sub-command.
+For more detailed analysis, it is better to use <code>uftrace-record</code>(1) to save
+trace data, and then analyze it with other uftrace commands like
+<code>uftrace-replay</code>(1), <code>uftrace-report</code>(1), <code>uftrace-info</code>(1), <code>uftrace-dump</code>(1),
+<code>uftrace-script</code>(1) or <code>uftrace-tui</code>(1).</p>
+<h1 id="sub-commands">SUB-COMMANDS</h1>
+<p>record
+:   Run a given command and save trace data in a data file or directory.</p>
+<p>replay
+:   Print recorded function trace data with time durations.</p>
+<p>live
+:   Do live tracing.  Print function trace of the given command.</p>
+<p>report
+:   Print various statistics and summary of the recorded trace data.</p>
+<p>info
+:   Print side-band information like OS version, CPU info, command line and so on.</p>
+<p>dump
+:   Print raw tracing data in the data files.</p>
+<p>recv
+:   Save tracing data sent to network</p>
+<p>graph
+:   Print function call graph</p>
+<p>script
+:   Run a script for recorded function trace</p>
+<p>tui
+:   Show text user interface for graph and report</p>
+<h1 id="common-options">COMMON OPTIONS</h1>
+<p>These are the common options supported by all uftrace subcommands:</p>
+<p>-h, --help
+:   Print help message and list of options with description</p>
+<p>--usage
+:   Print usage string</p>
+<p>-V, --version
+:   Print program version</p>
+<p>-v, --verbose
+:   Print verbose messages.  This option increases a debug level and can be
+    used at most 3 times.</p>
+<p>--debug
+:   Print debug messages.  This option is same as <code>-v</code>/<code>--verbose</code> and is
+    provided only for backward compatibility.</p>
+<p>--debug-domain=<em>DOMAIN</em>[,<em>DOMAIN</em>, ...]
+:   Limit the printing of debug messages to those belonging to one of the
+    DOMAINs specified.  Available domains are: uftrace, symbol, demangle,
+    filter, fstack, session, kernel, mcount, dynamic, event, script and dwarf.
+    The domains can have an their own debug level optionally (preceded by a
+    colon).  For example, <code>-v --debug-domain=filter:2</code> will apply debug level
+    of 2 to the "filter" domain and apply debug level of 1 to others.</p>
+<p>-d <em>DATA</em>, --data=<em>DATA</em>
+:   Specify name of trace data (directory).  Default is <code>uftrace.data</code>.</p>
+<p>--logfile=<em>FILE</em>
+:   Save warning and debug messages into this file instead of stderr.</p>
+<p>--color=<em>VAL</em>
+:   Enable or disable color on the output.  Possible values are
+    "yes"(= "true" | "1" | "on" ), "no"(= "false" | "0" | "off" ) and "auto".
+    The "auto" value is default and turns on coloring if stdout is a terminal.</p>
+<p>--no-pager
+:   Do not use a pager.</p>
+<p>--opt-file=<em>FILE</em>
+:   Read command-line options from the FILE.</p>
+<h1 id="subcommand-specific-options">SUBCOMMAND-SPECIFIC OPTIONS</h1>
+<p>These options are listed here for completeness, but are only effective with specific
+subcommands.</p>
+<p>Please see the uftrace-&lt;<em>subcommand</em>&gt; manual pages for more information:
+The manual for <em>uftrace-live</em>(1) is special: The subcommand <code>live</code> does
+<code>record</code> and <code>replay</code> internally.  Thus, it describes most regular option in detail.</p>
+<p>--avg-self
+:   Show average/min/max of self function time</p>
+<p>--avg-total
+:   Show average/min/max of total function time</p>
+<p>-a, --auto-args
+:   Show arguments and return value of known functions</p>
+<p>-A, --argument=<em>FUNC</em>@arg[,arg,...]
+:   Show function arguments</p>
+<p>-b, --buffer=<em>SIZE</em>
+:   Size of tracing buffer (default: 128K)</p>
+<p>--chrome
+:   Dump recorded data in chrome trace format</p>
+<p>--clock
+:   Set clock source for timestamp (default: mono)</p>
+<p>--column-offset=<em>DEPTH</em>
+:   Offset of each column (default: 8)</p>
+<p>--column-view
+:   Print tasks in separate columns</p>
+<p>-C, --caller-filter=<em>FUNC</em>
+:   Only trace callers of those FUNCs</p>
+<p>--demangle=<em>TYPE</em>
+:   C++ symbol demangling: full, simple, no
+:   (default: simple)</p>
+<p>--diff=<em>DATA</em>
+:   Report differences</p>
+<p>--diff-policy=<em>POLICY</em>
+:   Control diff report policy
+:   (default: 'abs,compact,no-percent')</p>
+<p>--disable
+:   Start with tracing disabled</p>
+<p>-D, --depth=<em>DEPTH</em>
+:   Trace functions within <em>DEPTH</em></p>
+<p>-e, --estimate-return
+:   Use only entry record type for safety</p>
+<p>--event-full
+:   Show all events outside of function</p>
+<p>-E, --Event=<em>EVENT</em>
+:   Enable <em>EVENT</em> to save more information</p>
+<p>--flame-graph
+:   Dump recorded data in FlameGraph format</p>
+<p>--flat
+:   Use flat output format</p>
+<p>--force
+:   Trace even if executable is not instrumented</p>
+<p>--format=<em>FORMAT</em>
+:   Use <em>FORMAT</em> for output: normal, html (default: normal)</p>
+<p>-f, --output-fields=<em>FIELD</em>
+:   Show FIELDs in the replay or graph output</p>
+<p>-F, --filter=<em>FUNC</em>
+:   Only trace those FUNCs</p>
+<p>-g, --agent
+:   Start an agent in mcount to listen to commands</p>
+<p>--graphviz
+:   Dump recorded data in <em>DOT</em> format</p>
+<p>-H, --hide=<em>FUNC</em>
+:   Hide FUNCs from trace</p>
+<p>--host=<em>HOST</em>
+:   Send trace data to <em>HOST</em> instead of write to file</p>
+<p>-k, --kernel
+:   Trace kernel functions also (if supported)</p>
+<p>--keep-pid
+:   Keep same pid during execution of traced program</p>
+<p>--kernel-buffer=<em>SIZE</em>
+:   Size of kernel tracing buffer (default: 1408K)</p>
+<p>--kernel-full
+:   Show kernel functions outside of user</p>
+<p>--kernel-only
+:   Dump kernel data only</p>
+<p>--kernel-skip-out
+:   Skip kernel functions outside of user (deprecated)</p>
+<p>-K, --kernel-depth=<em>DEPTH</em>
+:   Trace kernel functions within <em>DEPTH</em></p>
+<p>--libmcount-single
+:   Use single thread version of libmcount</p>
+<p>--list-event
+:   List available events</p>
+<p>--logfile=<em>FILE</em>
+:   Save warning and debug messages into this file instead of stderr.</p>
+<p>-l, --nest-libcall
+:   Show nested library calls</p>
+<p>--libname
+:   Show libname name with symbol name</p>
+<p>--libmcount-path=<em>PATH</em>
+:   Load libmcount libraries from this <em>PATH</em></p>
+<p>--match=<em>TYPE</em>
+:   Support pattern match: regex, glob (default:
+:   regex)</p>
+<p>--max-stack=<em>DEPTH</em>
+:   Set max stack depth to <em>DEPTH</em> (default: 65535)</p>
+<p>--no-args
+:   Do not show arguments and return value</p>
+<p>--no-comment
+:   Don't show comments of returned functions</p>
+<p>--no-event
+:   Disable (default) events</p>
+<p>--no-sched
+:   Disable schedule events</p>
+<p>--no-sched-preempt
+:   Hide pre-emptive schedule event
+:   but show regular(sleeping) schedule event</p>
+<p>--no-libcall
+:   Don't trace library function calls</p>
+<p>--no-merge
+:   Don't merge leaf functions</p>
+<p>--no-pltbind
+:   Do not bind dynamic symbols (<em>LD_BIND_NOT</em>)</p>
+<p>--no-randomize-addr
+:   Disable <em>ASLR</em> (Address Space Layout Randomization)</p>
+<p>--nop
+:   No operation (for performance test)</p>
+<p>--num-thread=<em>NUM</em>
+:   Create <em>NUM</em> recorder threads</p>
+<p>-N, --notrace=<em>FUNC</em>
+:   Don't trace those FUNCs</p>
+<p>-p, --pid=<em>PID</em>
+:   Connect to the <em>PID</em> of an interactive mcount instance</p>
+<p>--port=<em>PORT</em>
+:   Use <em>PORT</em> for network connection (default: 8090)</p>
+<p>-P, --patch=<em>FUNC</em>
+:   Apply dynamic patching for FUNCs</p>
+<p>--record
+:   Record a new trace before running given script</p>
+<p>--report
+:   Show a live report before replay</p>
+<p>--rt-prio=<em>PRIO</em>
+:   Record with real-time (<em>FIFO</em>) priority</p>
+<p>-r, --time-range=<em>TIME</em>~<em>TIME</em>
+:   Show output within the <em>TIME</em> (timestamp or elapsed time)
+:   range only</p>
+<p>--run-cmd=<em>CMDLINE</em>
+:   Command line that want to execute after tracing
+:   data received</p>
+<p>-R, --retval=<em>FUNC</em>[@retspec]
+:   Show function return values for <em>FUNC</em>, optionally with given uftrace retspec</p>
+<p>--sample-time=<em>TIME</em>
+:   Show flame graph with this sampling time</p>
+<p>--signal=<em>SIGNAL</em>@act[,act,...]
+:   Trigger the given actions when the given <em>SIGNAL</em> is received</p>
+<p>--sort-column=<em>INDEX</em>
+:   Sort diff report on column <em>INDEX</em> (default: 2)</p>
+<p>--srcline
+:   Enable recording source line info</p>
+<p>--symbols
+:   Print symbol table instead of the recorded tracing info</p>
+<p>-s, --sort=<em>KEY</em>[,<em>KEY</em>,...]
+:   Sort reported functions by KEYs (default: 2)</p>
+<p>-S, --script=<em>SCRIPT</em>
+:   Run a given <em>SCRIPT</em> in function entry and exit</p>
+<p>-t, --time-filter=<em>TIME</em>
+:   Hide small functions run less than the <em>TIME</em></p>
+<p>--task
+:   Print task relationship in a tree form instead of the tracing info.</p>
+<p>--task-newline
+:   Interleave a newline when task is changed</p>
+<p>--tid=<em>TID</em>[,<em>TID</em>,...]
+:   Only replay those tasks</p>
+<p>--time
+:   Print time information</p>
+<p>-T, --trigger=<em>FUNC</em>@act[,act,...]
+:   Trigger action on those FUNCs</p>
+<p>-U, --unpatch=<em>FUNC</em>
+:   Don't apply dynamic patching for FUNCs</p>
+<p>--with-syms=<em>DIR</em>
+:   Use symbol files in the <em>DIR</em></p>
+<p>-W, --watch=<em>POINT</em>
+:   Watch and report <em>POINT</em> if it's changed</p>
+<p>-Z, --size-filter=<em>SIZE</em>
+:   Apply dynamic patching for functions bigger than <em>SIZE</em></p>
+<p>For more detail about these command-specific options,
+please see the more specific manual pages listed below.</p>
+<h1 id="see-also">SEE ALSO</h1>
+<p><code>uftrace-live</code>(1), <code>uftrace-record</code>(1), <code>uftrace-replay</code>(1), <code>uftrace-report</code>(1), <code>uftrace-info</code>(1), <code>uftrace-dump</code>(1), <code>uftrace-recv</code>(1), <code>uftrace-graph</code>(1), <code>uftrace-script</code>(1), <code>uftrace-tui</code>(1)</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../ko/uftrace/" class="btn btn-neutral float-right" title="ko">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="../../ko/uftrace/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Uftrace graph - uftrace</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Uftrace graph";
+        var mkdocs_page_input_path = "en/uftrace-graph.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> uftrace
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Home</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../uftrace/">en</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ko/uftrace/">ko</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">uftrace</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Uftrace graph</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p>% UFTRACE-GRAPH(1) Uftrace User Manuals
+% Namhyung Kim <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
+% Sep, 2018</p>
+<h1 id="name">NAME</h1>
+<p>uftrace-graph - Show function call graph</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>uftrace graph [<em>options</em>] [<em>FUNCTION</em>]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>This command shows a function call graph for the binary or the given function
+in a uftrace record datafile.  If the function name is omitted, whole function
+call graph will be shown.  If a user provides a function name, it will show backtrace
+and calling functions.  Each function in the output is annotated with a hit
+count and the total time spent running that function.</p>
+<h1 id="graph-options">GRAPH OPTIONS</h1>
+<p>-f <em>FIELD</em>, --output-fields=<em>FIELD</em>
+:   Customize field in the output.  Possible values are: total, self and addr.
+    Multiple fields can be set by using comma.  Special field of 'none' can be
+    used (solely) to hide all fields.  Default is 'total'.  See <em>FIELDS</em>.</p>
+<p>--task
+:   Print task graph instead of normal function graph.  Each node in the
+    output shows a process or thread(printed in green color).</p>
+<p>--srcline
+:   Show source location of each function if available.</p>
+<p>--format=<em>TYPE</em>
+:   Show format style output. Currently, normal and html styles are supported.</p>
+<h1 id="common-options">COMMON OPTIONS</h1>
+<p>-F <em>FUNC</em>, --filter=<em>FUNC</em>
+:   Set filter to trace selected functions and their children functions.
+    This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of filters.</p>
+<p>-N <em>FUNC</em>, --notrace=<em>FUNC</em>
+:   Set filter not to trace selected functions and their children functions.
+    This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of filters.</p>
+<p>-C <em>FUNC</em>, --caller-filter=<em>FUNC</em>
+:   Set filter to trace callers of selected functions only.
+    This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of filters.</p>
+<p>-T <em>TRG</em>, --trigger=<em>TRG</em>
+:   Set trigger on selected functions.  This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of triggers.</p>
+<p>-D <em>DEPTH</em>, --depth <em>DEPTH</em>
+:   Set trace limit in nesting level.</p>
+<p>-t <em>TIME</em>, --time-filter=<em>TIME</em>
+:   Do not show functions which run under the time threshold.  If some functions
+    explicitly have the 'trace' trigger applied, those are always traced
+    regardless of execution time.</p>
+<p>-Z <em>SIZE</em>, --size-filter=<em>SIZE</em>
+:   Do not show functions smaller than SIZE bytes.</p>
+<p>-L <em>LOCATION</em>, --loc-filter=<em>LOCATION</em>
+:   Set filter to trace selected source locations.
+    This option can be used more than once.</p>
+<p>--no-libcall
+:   Do not show library calls.</p>
+<p>--no-event
+:   Do not show any events.  Implies <code>--no-sched</code>.</p>
+<p>--no-sched
+:   Do not show schedule events.</p>
+<p>--no-sched-preempt
+:   Do not show preempt schedule events
+    but show regular(sleeping) schedule events.</p>
+<p>--match=<em>TYPE</em>
+:   Use pattern match using TYPE.  Possible types are <code>regex</code> and <code>glob</code>.
+    Default is <code>regex</code>.</p>
+<p>--with-syms=<em>DIR</em>
+:   Read symbol data from the .sym files in <em>DIR</em> directory instead of the
+    binary.  This can be useful to deal with stripped binaries.  The file name
+    of the main binary should be the same when saved and used.</p>
+<h1 id="common-analysis-options">COMMON ANALYSIS OPTIONS</h1>
+<p>-H <em>FUNC</em>, --hide=<em>FUNC</em>
+:   Set filter not to trace selected functions.
+    It doesn't affect their subtrees, but hides only the given functions.
+    This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of filters.</p>
+<p>--kernel-full
+:   Show all kernel functions called outside of user functions.</p>
+<p>--kernel-only
+:   Show kernel functions only without user functions.</p>
+<p>--event-full
+:   Show all (user) events outside of user functions.</p>
+<p>--tid=<em>TID</em>[,<em>TID</em>,...]
+:   Only print functions called by the given tasks.  To see the list of
+    tasks in the data file, you can use <code>uftrace report --task</code> or
+    <code>uftrace info</code>.  This option can also be used more than once.</p>
+<p>--demangle=<em>TYPE</em>
+:   Use demangled C++ symbol names for filters, triggers, arguments and/or
+    return values.  Possible values are "full", "simple" and "no".  Default is
+    "simple" which ignores function arguments and template parameters.</p>
+<p>-r <em>RANGE</em>, --time-range=<em>RANGE</em>
+:   Only show functions executed within the time RANGE.  The RANGE can be
+    \&lt;start&gt;~\&lt;stop&gt; (separated by "~") and one of \&lt;start&gt; and \&lt;stop&gt; can
+    be omitted.  The \&lt;start&gt; and \&lt;stop&gt; are timestamp or elapsed time if
+    they have \&lt;time_unit&gt; postfix, for example '100us'.  The timestamp or
+    elapsed time can be shown with <code>-f time</code> or <code>-f elapsed</code> option respectively
+    in <code>uftrace replay</code>(1).</p>
+<h1 id="examples">EXAMPLES</h1>
+<p>This command show data like below:</p>
+<pre><code>$ uftrace record loop
+
+$ uftrace replay
+# DURATION    TID     FUNCTION
+            [24447] | main() {
+            [24447] |   foo() {
+   8.134 us [24447] |     loop();
+   7.296 us [24447] |     loop();
+   7.234 us [24447] |     loop();
+  24.324 us [24447] |   } /* foo */
+            [24447] |   foo() {
+   7.234 us [24447] |     loop();
+   7.231 us [24447] |     loop();
+   7.231 us [24447] |     loop();
+  22.302 us [24447] |   } /* foo */
+            [24447] |   bar() {
+  10.100 ms [24447] |     usleep();
+  10.138 ms [24447] |   } /* bar */
+  10.293 ms [24447] | } /* main */
+</code></pre>
+<p>Running the <code>graph</code> command shows function call graph like below:</p>
+<pre><code>$ uftrace graph
+# Function Call Graph for 'loop' (session: 073f1e84aa8b09d3)
+========== FUNCTION CALL GRAPH ==========
+  10.293 ms : (1) loop
+  10.293 ms : (1) main
+  46.626 us :  +-(2) foo
+  44.360 us :  | (6) loop
+            :  |
+  10.138 ms :  +-(1) bar
+  10.100 ms :    (1) usleep
+</code></pre>
+<p>The graph root is not a function, but the executing process itself.
+The left side shows total time running the function on the right side.
+The number in parentheses before the function name is the invocation count.
+As you can see, <code>main</code> was called once and ran for 10 msec.  It called
+<code>foo</code> twice and then <code>foo</code> called <code>loop</code> 6 times in total.  The printed time is the
+total execution time for all function invocations.</p>
+<p>It can also be seen that <code>main</code> called <code>bar</code> once and that <code>bar</code> then called
+<code>usleep</code> once.  To minimize nesting, the output shows calls at the same level if
+only a single call path exists.  Since the nodes <code>usleep</code> and <code>main</code> are not
+directly connected, <code>usleep</code> is not called from <code>main</code> directly.</p>
+<p>Running the <code>graph</code> command on the <code>main</code> function shows called functions and
+backtrace like below:</p>
+<pre><code>$ uftrace graph main
+# Function Call Graph for 'main' (session: 073f1e84aa8b09d3)
+=============== BACKTRACE ===============
+ backtrace #0: hit 1, time  10.293 ms
+   [0] main (0x4004f0)
+
+========== FUNCTION CALL GRAPH ==========
+# TOTAL TIME   FUNCTION
+   10.293 ms : (1) main
+   46.626 us :  +-(2) foo
+   44.360 us :  | (6) loop
+             :  |
+   10.138 ms :  +-(1) bar
+   10.100 ms :    (1) usleep
+</code></pre>
+<p>Note that the 'main' is the top-level function so it has no backtrace above
+itself.  Running the graph command on a leaf function looks like below.</p>
+<pre><code>$ uftrace graph loop
+# Function Call Graph for 'loop' (session: 073f1e84aa8b09d3)
+=============== BACKTRACE ===============
+ backtrace #0: hit 6, time  44.360 us
+   [0] main (0x4004b0)
+   [1] foo (0x400622)
+   [2] loop (0x400f5f6)
+
+========== FUNCTION CALL GRAPH ==========
+# TOTAL TIME   FUNCTION
+   44.360 us : (6) loop
+</code></pre>
+<p>The backtrace shows that loop is called from <code>foo</code> and that <code>foo</code> is called
+from <code>main</code>.  Since <code>loop</code> is a leaf function, it didn't call any other
+function.  In this case, <code>loop</code> was called only from a single path so
+backtrace #0 is hit 6 times.</p>
+<p>While graph command shows function-level call graph, --task option makes the
+output in task-level graph which shows how processes and threads are created.
+The term here <code>task</code> includes process and thread.</p>
+<p>For example, the task graph of GCC compiler can be shown as follows:</p>
+<pre><code>$ uftrace record --force /usr/bin/gcc hello.c
+
+$ uftrace graph --task
+========== TASK GRAPH ==========
+# TOTAL TIME   SELF TIME     TID     TASK NAME
+  159.854 ms    4.440 ms  [ 82723] : gcc
+                                   :  |
+   90.951 ms   90.951 ms  [ 82734] :  +----cc1
+                                   :  |
+   17.150 ms   17.150 ms  [ 82735] :  +----as
+                                   :  |
+   45.183 ms    6.076 ms  [ 82736] :  +----collect2
+                                   :        |
+   38.880 ms   38.880 ms  [ 82737] :        +----ld
+</code></pre>
+<p>The above output shows <code>gcc</code> created <code>cc1</code>, <code>as</code>, and <code>collect2</code> processes then
+<code>collect2</code> created <code>ld</code> process.</p>
+<p><code>TOTAL TIME</code> is the lifetime of the task from its creation to termination, and
+<code>SELF TIME</code> is also lifetime, but it excludes internal idle time.  <code>TID</code> is the
+thread id of the task.</p>
+<p>The following shows task graph of uftrace recording itself.  It shows uftrace
+created <code>t-abc</code> process, and also created many threads whose names are all
+<code>WriterThread</code>.</p>
+<pre><code>$ uftrace record -P. ./uftrace record -d uftrace.data.abc t-abc
+
+$ uftrace graph --task
+========== TASK GRAPH ==========
+# TOTAL TIME   SELF TIME     TID     TASK NAME
+  404.929 ms  321.692 ms  [  4230] : uftrace
+                                   :  |
+  278.662 us  278.662 us  [  4241] :  +----t-abc
+                                   :  |
+   33.754 ms    4.061 ms  [  4242] :  +-WriterThread
+   27.415 ms  120.992 us  [  4244] :  +-WriterThread
+   27.212 ms    8.119 ms  [  4245] :  +-WriterThread
+   26.754 ms    6.616 ms  [  4248] :  +-WriterThread
+   26.859 ms    8.154 ms  [  4247] :  +-WriterThread
+   26.509 ms    1.645 ms  [  4243] :  +-WriterThread
+   25.320 ms   57.350 us  [  4246] :  +-WriterThread
+   24.757 ms    4.391 ms  [  4249] :  +-WriterThread
+   26.040 ms    3.707 ms  [  4250] :  +-WriterThread
+   24.004 ms    3.999 ms  [  4251] :  +-WriterThread
+</code></pre>
+<p>Please note that the indentation depth of thread is different from process.</p>
+<p>Running the <code>graph</code> command with <code>--srcline</code> option shows source location
+in call graph like below:</p>
+<pre><code>$ uftrace record --srcline t-abc
+$ uftrace graph --srcline
+# Function Call Graph for 't-abc' (session: 60195bac953d8736)
+========== FUNCTION CALL GRAPH ==========
+# TOTAL TIME   FUNCTION [SOURCE]
+  8.909 us : (1) t-abc
+  1.260 us :  +-(1) __monstartup
+           :  |
+  0.179 us :  +-(1) __cxa_atexit
+           :  |
+  7.470 us :  +-(1) main [tests/s-abc.c:26]
+  5.522 us :    (1) a [tests/s-abc.c:11]
+  4.912 us :    (1) b [tests/s-abc.c:16]
+  4.176 us :    (1) c [tests/s-abc.c:21]
+  0.794 us :    (1) getpid
+</code></pre>
+<h1 id="fields">FIELDS</h1>
+<p>The uftrace allows for user to customize the graph output with some of fields.
+Here the field means info on the left side of the colon (:) character.
+By default it uses time only, but you can use other fields in any order like:</p>
+<pre><code>$ uftrace record tests/t-abc
+$ uftrace graph -f total,self,addr
+# Function Call Graph for 't-sort' (session: b007f4b7cf792878)
+========== FUNCTION CALL GRAPH ==========
+# TOTAL TIME  SELF TIME      ADDRESS     FUNCTION
+   10.145 ms              561f652cd610 : (1) t-sort
+   10.145 ms   39.890 us  561f652cd610 : (1) main
+   16.773 us    0.734 us  561f652cd7ce :  +-(2) foo
+   16.039 us   16.039 us  561f652cd7a0 :  | (6) loop
+                                       :  |
+   10.088 ms   14.740 us  561f652cd802 :  +-(1) bar
+   10.073 ms   10.073 ms  561f652cd608 :    (1) usleep
+</code></pre>
+<p>Each field has following meaning:</p>
+<ul>
+<li>total: function execution time in total</li>
+<li>self : function execution time excluding its children's</li>
+<li>addr : address of the function</li>
+</ul>
+<p>The default value is 'total'.  If given field name starts with "+", then it'll
+be appended to the default fields.  So "-f +addr" is as same as "-f total,addr".
+And it also accepts a special field name of 'none' which disables the field
+display and shows function output only.</p>
+<pre><code>$ uftrace graph -f none
+# Function Call Graph for 't-sort' (session: b007f4b7cf792878)
+========== FUNCTION CALL GRAPH ==========
+(1) t-sort
+(1) main
+ +-(2) foo
+ | (6) loop
+ |
+ +-(1) bar
+   (1) usleep
+</code></pre>
+<p>This output can be useful when comparing two different call graph outputs using
+diff tool.</p>
+<p>It also supports field customization for task graph.  The default field is set
+to <code>total,self,tid</code>, but the field option can also be used as follows:</p>
+<pre><code>$ uftrace graph --task -f tid,self
+========== TASK GRAPH ==========
+#    TID     SELF TIME   TASK NAME
+  [ 82723]    4.440 ms : gcc
+                       :  |
+  [ 82734]   90.951 ms :  +----cc1
+                       :  |
+  [ 82735]   17.150 ms :  +----as
+                       :  |
+  [ 82736]    6.076 ms :  +----collect2
+                       :        |
+  [ 82737]   38.880 ms :        +----ld
+</code></pre>
+<p>Each field has following meaning:</p>
+<ul>
+<li>total: total task lifetime from its creation to termination</li>
+<li>self : task execution time excluding its idle time</li>
+<li>tid  : task id (obtained by gettid(2))</li>
+</ul>
+<p>It also accepts a special field <code>none</code>, which hides all the fields on the left.</p>
+<pre><code>$ uftrace graph --task -f none
+========== TASK GRAPH ==========
+gcc
+ |
+ +----cc1
+ |
+ +----as
+ |
+ +----collect2
+       |
+       +----ld
+</code></pre>
+<h1 id="see-also">SEE ALSO</h1>
+<p><code>uftrace</code>(1), <code>uftrace-record</code>(1), <code>uftrace-replay</code>(1), <code>uftrace-tui</code>(1)</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

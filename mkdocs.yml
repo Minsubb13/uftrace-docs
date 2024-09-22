@@ -3,9 +3,15 @@ site_name: uftrace
 theme:
   name: readthedocs
 
+plugins:
+  - search
+  - i18n:
+      default_language: en
+      languages:
+        en: English
+        ko: 한국어
+
 nav:
-  - Home: README.md
-  - Tutorial:
-      - contributing: 'CONTRIBUTING.md'
-  - doc:
-      - replay: 'uftrace-replay.md'
+  - Home:
+    - en: en/uftrace.md
+    - ko: ko/uftrace.md

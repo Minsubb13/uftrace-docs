@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Uftrace tui - uftrace</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Uftrace tui";
+        var mkdocs_page_input_path = "en/uftrace-tui.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> uftrace
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Home</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../uftrace/">en</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ko/uftrace/">ko</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">uftrace</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Uftrace tui</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p>% UFTRACE-TUI(1) Uftrace User Manuals
+% Namhyung Kim <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
+% Jun, 2018</p>
+<h1 id="name">NAME</h1>
+<p>uftrace-tui - (Interactive) Text-based User Interface</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>uftrace tui [<em>options</em>]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>This command starts an interactive window on a terminal which can show same
+output of other commands like graph, report and info.  Users can navigate the
+result easily with key presses.  The command line options are used to limit
+the initial data loading.</p>
+<h1 id="tui-options">TUI OPTIONS</h1>
+<p>-f <em>FIELD</em>, --output-fields=<em>FIELD</em>
+:   Customize fields in the output.  This option basically indicates graph fields.
+    Possible values are total, self and addr.  The default value is 'total'.
+    But if this option is used with --report option,
+    this option indicates report fields.  Possible values are total, total-avg,
+    total-min, total-max, total-stdv, self, self-avg, self-min, self-max,
+    self-stdv, call and size.
+    The default value is 'total,self,call'.
+    Multiple fields can be set by using comma.
+    If given field name starts with "+", then it'll be appended to the default fields.
+    The special field 'none' can be used (solely) to hide all fields.
+    See <code>uftrace-graph</code>(1) or <code>uftrace-report</code>(1) for an explanation of fields.
+    The <code>stdv</code> in total-stdv and self-stdv stands for relative standard deviation (RSD),
+    it would only contain value if the function is invoked multiple times.</p>
+<p>-s <em>KEYS</em>[,<em>KEYS</em>,...], --sort=<em>KEYS</em>[,<em>KEYS</em>,...]
+:   Sort functions by given KEYS. Multiple KEYS can be given, separated by comma (,).
+    Possible keys are total (time), total-avg, total-min, total-max, self (time), self-avg,
+    self-min, self-max, call, func and size.
+    This option must be used with --report option.</p>
+<h1 id="common-options">COMMON OPTIONS</h1>
+<p>-F <em>FUNC</em>, --filter=<em>FUNC</em>
+:   Set filter to trace selected functions and their children functions.
+    This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of filters.</p>
+<p>-N <em>FUNC</em>, --notrace=<em>FUNC</em>
+:   Set filter not to trace selected functions and their children functions.
+    This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of filters.</p>
+<p>-C <em>FUNC</em>, --caller-filter=<em>FUNC</em>
+:   Set filter to trace callers of selected functions only.
+    This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of filters.</p>
+<p>-T <em>TRG</em>, --trigger=<em>TRG</em>
+:   Set trigger on selected functions.  This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of triggers.</p>
+<p>-D <em>DEPTH</em>, --depth <em>DEPTH</em>
+:   Set trace limit in nesting level.</p>
+<p>-t <em>TIME</em>, --time-filter=<em>TIME</em>
+:   Do not show functions which run under the time threshold.  If some functions
+    explicitly have the 'trace' trigger applied, those are always traced
+    regardless of execution time.</p>
+<p>-Z <em>SIZE</em>, --size-filter=<em>SIZE</em>
+:   Do not show functions smaller than SIZE bytes.</p>
+<p>-L <em>LOCATION</em>, --loc-filter=<em>LOCATION</em>
+:   Set filter to trace selected source locations.
+    This option can be used more than once.  See <em>FILTERS</em>.</p>
+<p>--no-libcall
+:   Do not show library calls.</p>
+<p>--no-event
+:   Do not show any events.  Implies <code>--no-sched</code>.</p>
+<p>--no-sched
+:   Do not show schedule events.</p>
+<p>--no-sched-preempt
+:   Do not show preempt schedule events
+    but show regular(sleeping) schedule events.</p>
+<p>--match=<em>TYPE</em>
+:   Use pattern match using TYPE.  Possible types are <code>regex</code> and <code>glob</code>.
+    Default is <code>regex</code>.</p>
+<p>--with-syms=<em>DIR</em>
+:   Read symbol data from the .sym files in <em>DIR</em> directory instead of the
+    binary.  This can be useful to deal with stripped binaries.  The file name
+    of the main binary should be the same when saved and used.</p>
+<h1 id="common-analysis-options">COMMON ANALYSIS OPTIONS</h1>
+<p>-H <em>FUNC</em>, --hide=<em>FUNC</em>
+:   Set filter not to trace selected functions.
+    It doesn't affect their subtrees, but hides only the given functions.
+    This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of filters.</p>
+<p>--kernel-full
+:   Show all kernel functions called outside of user functions.</p>
+<p>--kernel-only
+:   Show kernel functions only without user functions.</p>
+<p>--event-full
+:   Show all (user) events outside of user functions.</p>
+<p>--tid=<em>TID</em>[,<em>TID</em>,...]
+:   Only print functions called by the given tasks.  To see the list of
+    tasks in the data file, you can use <code>uftrace report --task</code> or
+    <code>uftrace info</code>.  This option can also be used more than once.</p>
+<p>--demangle=<em>TYPE</em>
+:   Use demangled C++ symbol names for filters, triggers, arguments and/or
+    return values.  Possible values are "full", "simple" and "no".  Default is
+    "simple" which ignores function arguments and template parameters.</p>
+<p>-r <em>RANGE</em>, --time-range=<em>RANGE</em>
+:   Only show functions executed within the time RANGE.  The RANGE can be
+    \&lt;start&gt;~\&lt;stop&gt; (separated by "~") and one of \&lt;start&gt; and \&lt;stop&gt; can
+    be omitted.  The \&lt;start&gt; and \&lt;stop&gt; are timestamp or elapsed time if
+    they have \&lt;time_unit&gt; postfix, for example '100us'.  The timestamp or
+    elapsed time can be shown with <code>-f time</code> or <code>-f elapsed</code> option respectively
+    in <code>uftrace replay</code>(1).</p>
+<h1 id="outline">OUTLINE</h1>
+<p>If there's only one session (the usual case) it'll start with the graph mode to
+show a full (function) call graph of the session.  Users can change to different
+mode by pressing some keys.  The <code>h</code> key always is available for help.</p>
+<p>The current line (marked with '&gt;' below) is displayed with inverted color and
+arrow keys are used to move the cursor to a different location.</p>
+<pre><code> TOTAL TIME : FUNCTION
+&gt;  7.548 us : (1) t-abc
+   1.811 us :  ├─(1) __monstartup
+            :  │
+   1.266 us :  ├─(1) __cxa_atexit
+            :  │
+   4.471 us :  └─(1) main
+   3.743 us :    (1) a
+   3.194 us :    (1) b
+   2.454 us :    (1) c
+   1.000 us :    (1) getpid
+
+ uftrace graph: session 2a22812ebbd06f40 (/tmp/uftrace/tests/t-abc)
+</code></pre>
+<p>If there're more than one session, it'll start with session selection mode.
+The graph mode is separated for each session but report mode is merged for the
+whole sessions.</p>
+<pre><code> Key uftrace command
+&gt; G  call Graph for session #1: t-forkexec
+     call Graph for session #2: t-abc
+  R  Report functions
+  I  uftrace Info
+  h  Help message
+  q  quit
+
+ session a27acff69aec5c9c:  exe image: /tmp/uftrace/tests/t-forkexec
+</code></pre>
+<h1 id="keys">KEYS</h1>
+<p>Following keys can be used in the TUI window:</p>
+<ul>
+<li><code>Up</code>, <code>Down</code>:          Move cursor up/down</li>
+<li><code>PageUp</code>, <code>PageDown</code>:  Move page up/down</li>
+<li><code>Home</code>, <code>End</code>:         Move to the first/last entry</li>
+<li><code>Enter</code>:               Fold/unfold graph or Select session</li>
+<li><code>G</code>:                   Show full graph of the current session</li>
+<li><code>g</code>:                   Show backtrace and call graph of the current function</li>
+<li><code>R</code>:                   Show uftrace report</li>
+<li><code>r</code>:                   Show uftrace report of the current function</li>
+<li><code>s</code>:                   Sort by the next column (in report mode)</li>
+<li><code>I</code>:                   Show uftrace info</li>
+<li><code>S</code>:                   Show session list</li>
+<li><code>O</code>:                   Open editor for current function</li>
+<li><code>c</code>/<code>e</code>:               Collapse/Expand direct children graph node</li>
+<li><code>C</code>/<code>E</code>:               Collapse/Expand all descendant graph node</li>
+<li><code>n</code>/<code>p</code>:               Move to next/prev sibling (in graph mode)</li>
+<li><code>u</code>:                   Move up to parent (in graph mode)</li>
+<li><code>l</code>:                   Move to the longest executed child (in graph mode)</li>
+<li><code>j</code>/<code>k</code>:               Move cursor up/down (like vi)</li>
+<li><code>z</code>:                   Set current line to the center of screen</li>
+<li><code>/</code>:                   Start search</li>
+<li><code>&lt;</code>/<code>P</code>:               Search previous match</li>
+<li><code>&gt;</code>/<code>N</code>:               Search next match</li>
+<li><code>v</code>:                   Show debug message</li>
+<li><code>f</code>:                   Customize fields in graph or report mode</li>
+<li><code>h</code>/<code>?</code>:               Show help window</li>
+<li><code>q</code>:                   Quit</li>
+</ul>
+<h1 id="see-also">SEE ALSO</h1>
+<p><code>uftrace</code>(1), <code>uftrace-graph</code>(1), <code>uftrace-report</code>(1), <code>uftrace-info</code>(1), <code>uftrace-replay</code>(1)</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

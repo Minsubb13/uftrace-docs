@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Uftrace dump - uftrace</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Uftrace dump";
+        var mkdocs_page_input_path = "en/uftrace-dump.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> uftrace
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Home</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../uftrace/">en</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ko/uftrace/">ko</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">uftrace</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Uftrace dump</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p>% UFTRACE-DUMP(1) Uftrace User Manuals
+% Namhyung Kim <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#110;&#97;&#109;&#104;&#121;&#117;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
+% Sep, 2018</p>
+<h1 id="name">NAME</h1>
+<p>uftrace-dump - Print raw tracing data in the data files</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>uftrace dump [<em>options</em>]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>This command shows raw tracing data recorded in the data file.  The dump format
+can be configured by additional options such as --chrome, --flame-graph,
+or --graphviz.</p>
+<h1 id="dump-options">DUMP OPTIONS</h1>
+<p>--chrome
+:   Show JSON style output as used by the Google Chrome tracing facility.</p>
+<p>--flame-graph
+:   Show FlameGraph style output viewable by modern web browsers (after
+    processing by the FlameGraph tool).</p>
+<p>--graphviz
+:   Show DOT style output used by the graphviz toolkit.</p>
+<p>--mermaid
+:   Show graph as mermaid flowchart diagram. It can be rendered in the browser.</p>
+<p>--debug
+:   Show hex dump of data as well</p>
+<p>--sample-time=<em>TIME</em>
+:   Apply sampling time when generating output for --flame-graph.  By default, it
+    tries to find a period from 1 usec to 1 sec where it keeps the total number
+    of samples under 1 million (in a single-threaded program).  You can override
+    the sampling time with this option explicitly.  Note that functions which
+    ran less than the sampling time will be removed from the output and
+    functions ran longer than the time will be shown as larger.</p>
+<p>--no-args
+:   Do not show function arguments and return value.</p>
+<h1 id="common-options">COMMON OPTIONS</h1>
+<p>-F <em>FUNC</em>, --filter=<em>FUNC</em>
+:   Set filter to trace selected functions and their children functions.
+    This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of filters.</p>
+<p>-N <em>FUNC</em>, --notrace=<em>FUNC</em>
+:   Set filter not to trace selected functions and their children functions.
+    This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of filters.</p>
+<p>-C <em>FUNC</em>, --caller-filter=<em>FUNC</em>
+:   Set filter to trace callers of selected functions only.
+    This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of filters.</p>
+<p>-T <em>TRG</em>, --trigger=<em>TRG</em>
+:   Set trigger on selected functions.  This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of triggers.</p>
+<p>-D <em>DEPTH</em>, --depth=<em>DEPTH</em>
+:   Set trace limit in nesting level.</p>
+<p>-t <em>TIME</em>, --time-filter=<em>TIME</em>
+:   Do not show functions which run under the time threshold.  If some functions
+    explicitly have the 'trace' trigger applied, those are always traced
+    regardless of execution time.</p>
+<p>-Z <em>SIZE</em>, --size-filter=<em>SIZE</em>
+:   Do not show functions smaller than SIZE bytes.</p>
+<p>-L <em>LOCATION</em>, --loc-filter=<em>LOCATION</em>
+:   Set filter to trace selected source locations.
+    This option can be used more than once.</p>
+<p>--no-libcall
+:   Do not show library calls.</p>
+<p>--no-event
+:   Do not show any events.  Implies <code>--no-sched</code>.</p>
+<p>--no-sched
+:   Do not show schedule events.</p>
+<p>--match=<em>TYPE</em>
+:   Use pattern match using TYPE.  Possible types are <code>regex</code> and <code>glob</code>.
+    Default is <code>regex</code>.</p>
+<p>--with-syms=<em>DIR</em>
+:   Read symbol data from the .sym files in <em>DIR</em> directory instead of the
+    binary.  This can be useful to deal with stripped binaries.  The file name
+    of the main binary should be the same when saved and used.</p>
+<h1 id="common-analysis-options">COMMON ANALYSIS OPTIONS</h1>
+<p>-H <em>FUNC</em>, --hide=<em>FUNC</em>
+:   Set filter not to trace selected functions.
+    It doesn't affect their subtrees, but hides only the given functions.
+    This option can be used more than once.
+    See <code>uftrace-replay</code>(1) for an explanation of filters.</p>
+<p>--kernel-full
+:   Show all kernel functions called outside of user functions.  This option is
+    only meaningful when used with --chrome, --flame-graph or --graphviz
+    options.</p>
+<p>--kernel-only
+:   Dump kernel functions only without user functions.</p>
+<p>--event-full
+:   Show all (user) events outside of user functions.  This option is only
+    meaningful when used with --chrome, --flame-graph or --graphviz options.</p>
+<p>--tid=<em>TID</em>[,<em>TID</em>,...]
+:   Only print functions called by the given tasks.  To see the list of
+    tasks in the data file, you can use <code>uftrace report --task</code> or
+    <code>uftrace info</code>.  This option can also be used more than once.</p>
+<p>--demangle=<em>TYPE</em>
+:   Use demangled C++ symbol names for filters, triggers, arguments and/or
+    return values.  Possible values are "full", "simple" and "no".  Default
+    is "simple" which ignores function arguments and template parameters.</p>
+<p>-r <em>RANGE</em>, --time-range=<em>RANGE</em>
+:   Only show functions executed within the time RANGE.  The RANGE can be
+    \&lt;start&gt;~\&lt;stop&gt; (separated by "~") and one of \&lt;start&gt; and \&lt;stop&gt; can
+    be omitted.  The \&lt;start&gt; and \&lt;stop&gt; are timestamp or elapsed time if
+    they have \&lt;time_unit&gt; postfix, for example '100us'.  The timestamp or
+    elapsed time can be shown with <code>-f time</code> or <code>-f elapsed</code> option respectively
+    in <code>uftrace replay</code>(1).</p>
+<h1 id="example">EXAMPLE</h1>
+<p>This command dumps data like below:</p>
+<pre><code>$ uftrace record abc
+
+$ uftrace dump
+uftrace file header: magic         = 4674726163652100
+uftrace file header: version       = 4
+uftrace file header: header size   = 40
+uftrace file header: endian        = 1 (little)
+uftrace file header: class         = 2 (64 bit)
+uftrace file header: features      = 0x63 (PLTHOOK | TASK_SESSION | SYM_REL_ADDR | MAX_STACK)
+uftrace file header: info          = 0x3ff
+
+reading 23043.dat
+105430.415350255  23043: [entry] __monstartup(4004d0) depth: 0
+105430.415351178  23043: [exit ] __monstartup(4004d0) depth: 0
+105430.415351932  23043: [entry] __cxa_atexit(4004f0) depth: 0
+105430.415352687  23043: [exit ] __cxa_atexit(4004f0) depth: 0
+105430.415353833  23043: [entry] main(400512) depth: 0
+105430.415353992  23043: [entry] a(4006b2) depth: 1
+105430.415354112  23043: [entry] b(4006a0) depth: 2
+105430.415354230  23043: [entry] c(400686) depth: 3
+105430.415354425  23043: [entry] getpid(4004b0) depth: 4
+105430.415355035  23043: [exit ] getpid(4004b0) depth: 4
+105430.415355549  23043: [exit ] c(400686) depth: 3
+105430.415355761  23043: [exit ] b(4006a0) depth: 2
+105430.415355943  23043: [exit ] a(4006b2) depth: 1
+105430.415356109  23043: [exit ] main(400512) depth: 0
+
+$ uftrace dump --chrome -F main
+{"traceEvents":[
+{"ts":105430415353,"ph":"B","pid":23043,"name":"main"},
+{"ts":105430415353,"ph":"B","pid":23043,"name":"a"},
+{"ts":105430415354,"ph":"B","pid":23043,"name":"b"},
+{"ts":105430415354,"ph":"B","pid":23043,"name":"c"},
+{"ts":105430415354,"ph":"B","pid":23043,"name":"getpid"},
+{"ts":105430415355,"ph":"E","pid":23043,"name":"getpid"},
+{"ts":105430415355,"ph":"E","pid":23043,"name":"c"},
+{"ts":105430415355,"ph":"E","pid":23043,"name":"b"},
+{"ts":105430415355,"ph":"E","pid":23043,"name":"a"},
+{"ts":105430415356,"ph":"E","pid":23043,"name":"main"}
+], "metadata": {
+"command_line":"uftrace record abc ",
+"recorded_time":"Tue May 24 19:44:54 2016"
+} }
+
+$ uftrace dump --flame-graph --sample-time 1us
+main 1
+main;a;b;c 1
+
+$ uftrace dump --graphviz
+\# command_line "uftrace record tests/t-abc"
+digraph "/home/m/git/uftrace/tests/t-abc" {
+        \# Attributes
+        splines=ortho;
+        concentrate=true;
+        node [shape="rect",fontsize="7",style="filled"];
+        edge [fontsize="7"];
+        \# Elements
+        main[xlabel = "Calls : 1"]
+        main-&gt;a[xlabel = "Calls : 1"]
+        a-&gt;b[xlabel = "Calls : 1"]
+        b-&gt;c[xlabel = "Calls : 1"]
+        c-&gt;getpid[xlabel = "Calls : 1"]
+}
+</code></pre>
+<h1 id="see-also">SEE ALSO</h1>
+<p><code>uftrace</code>(1), <code>uftrace-record</code>(1), <code>uftrace-replay</code>(1)</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
